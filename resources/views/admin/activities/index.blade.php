@@ -1,0 +1,46 @@
+@extends('layouts.admin')
+
+@section('title', '最近の活動')
+@section('eyebrow', 'Activities')
+@section('heading', '最近の活動')
+
+@section('actions')
+    <a href="{{ route('admin.activities.create') }}" class="btn btn-gold !py-2.5 !px-6">＋ 新規追加</a>
+@endsection
+
+@section('content')
+<div class="admin-card overflow-hidden">
+    @if ($activities->isEmpty())
+        <p class="text-center text-[var(--color-mist)] py-16">まだ活動がありません。「新規追加」から登録してください。</p>
+    @else
+        <table class="w-full text-left">
+            <thead class="border-b border-[var(--color-line)]">
+                <tr>
+                    <th class="admin-th px-5 py-3">タイトル</th>
+                    <th class="admin-th px-5 py-3 hidden sm:table-cell">日付</th>
+                    <th class="admin-th px-5 py-3 hidden md:table-cell">場所</th>
+                    <th class="admin-th px-5 py-3">公開</th>
+                    <th class="admin-th px-5 py-3 text-right">操作</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--color-line)]">
+                @foreach ($activities as $a)
+                    <tr class="hover:bg-[var(--color-washi)]/50">
+                        <td class="px-5 py-3.5 font-[var(--font-serif)]">{{ $a->t('title') }}</td>
+                        <td class="px-5 py-3.5 text-sm text-[var(--color-mist)] hidden sm:table-cell">{{ $a->happened_on?->isoFormat('YYYY.MM.DD') }}</td>
+                        <td class="px-5 py-3.5 text-sm text-[var(--color-mist)] hidden md:table-cell">{{ $a->location }}</td>
+                        <td class="px-5 py-3.5"><span class="chip {{ $a->is_published ? 'chip-on' : 'chip-off' }}">{{ $a->is_published ? '公開' : '下書き' }}</span></td>
+                        <td class="px-5 py-3.5 text-right whitespace-nowrap">
+                            <a href="{{ route('admin.activities.edit', $a) }}" class="text-sm text-[var(--color-gold)] hover:underline">編集</a>
+                            <form method="POST" action="{{ route('admin.activities.destroy', $a) }}" class="inline ml-3" onsubmit="return confirm('削除しますか？')">
+                                @csrf @method('DELETE')
+                                <button class="text-sm text-[var(--color-shu)] hover:underline">削除</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+</div>
+@endsection
