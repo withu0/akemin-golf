@@ -169,17 +169,17 @@ class DatabaseSeeder extends Seeder
 
         // ---- Friends -------------------------------------------------------
         $friends = [
-            ['name' => 'Akemi (UAE)', 'country' => 'Dubai, UAE', 'flag' => '🇦🇪', 'instagram' => 'akemi_harisienne_uae', 'sort' => 1, 'photo' => 'media/airport.jpg',
+            ['name' => 'Akemi (UAE)', 'country' => 'Dubai, UAE', 'country_code' => 'ae', 'flag' => '🇦🇪', 'instagram' => 'akemi_harisienne_uae', 'sort' => 1, 'photo' => 'media/airport.jpg',
              'message' => ['ja' => '砂漠の国から、世界へ。', 'en' => 'From the desert, to the world.', 'zh' => '从沙漠之国，走向世界。']],
-            ['name' => 'Harisienne India', 'country' => 'Mumbai, India', 'flag' => '🇮🇳', 'instagram' => 'akemi_harisienne_ind', 'sort' => 2,
+            ['name' => 'Harisienne India', 'country' => 'Mumbai, India', 'country_code' => 'in', 'flag' => '🇮🇳', 'instagram' => 'akemi_harisienne_ind', 'sort' => 2,
              'message' => ['ja' => '色とりどりの笑顔で。', 'en' => 'With colourful smiles.', 'zh' => '以缤纷的笑容相聚。']],
-            ['name' => 'Harisienne Singapore', 'country' => 'Singapore', 'flag' => '🇸🇬', 'instagram' => 'akemi_harisienne_sg', 'sort' => 3, 'photo' => 'media/tropical.jpg',
+            ['name' => 'Harisienne Singapore', 'country' => 'Singapore', 'country_code' => 'sg', 'flag' => '🇸🇬', 'instagram' => 'akemi_harisienne_sg', 'sort' => 3, 'photo' => 'media/tropical.jpg',
              'message' => ['ja' => '常夏のグリーンで。', 'en' => 'On an ever-summer green.', 'zh' => '在四季常夏的果岭。']],
-            ['name' => 'LA Golf Sisters', 'country' => 'Los Angeles, USA', 'flag' => '🇺🇸', 'instagram' => 'aki_golf30', 'sort' => 4, 'photo' => 'media/la-round.jpg',
+            ['name' => 'LA Golf Sisters', 'country' => 'Los Angeles, USA', 'country_code' => 'us', 'flag' => '🇺🇸', 'instagram' => 'aki_golf30', 'sort' => 4, 'photo' => 'media/la-round.jpg',
              'message' => ['ja' => 'ナイスショットで乾杯！', 'en' => 'Cheers to a nice shot!', 'zh' => '为漂亮的一杆干杯！']],
-            ['name' => 'Paris Amies', 'country' => 'Paris, France', 'flag' => '🇫🇷', 'sort' => 5,
+            ['name' => 'Paris Amies', 'country' => 'Paris, France', 'country_code' => 'fr', 'flag' => '🇫🇷', 'sort' => 5,
              'message' => ['ja' => 'エレガンスをグリーンにも。', 'en' => 'Elegance, even on the green.', 'zh' => '把优雅也带上果岭。']],
-            ['name' => 'Tokyo Members', 'country' => 'Tokyo, Japan', 'flag' => '🇯🇵', 'sort' => 6,
+            ['name' => 'Tokyo Members', 'country' => 'Tokyo, Japan', 'country_code' => 'jp', 'flag' => '🇯🇵', 'sort' => 6,
              'message' => ['ja' => 'すべての始まりの街で。', 'en' => 'Where it all began.', 'zh' => '在一切开始的城市。']],
         ];
         foreach ($friends as $f) {

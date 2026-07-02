@@ -45,7 +45,9 @@ export interface FriendCard {
     id: number;
     name: string;
     country: string | null;
+    country_code: string | null;
     flag: string | null;
+    flag_url: string | null;
     instagram: string | null;
     photo: string | null;
     video: string | null;

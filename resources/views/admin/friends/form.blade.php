@@ -16,7 +16,23 @@
         <x-admin.field name="country" label="国・地域" :value="$friend->country" placeholder="Singapore" />
     </div>
     <div class="grid gap-6 sm:grid-cols-2">
-        <x-admin.field name="flag" label="国旗（絵文字）" :value="$friend->flag" placeholder="🇸🇬" />
+        <div class="space-y-2">
+            <label class="field-label" for="country_code">国旗</label>
+            <div class="flex items-center gap-3">
+                <select id="country_code" name="country_code" class="admin-input flex-1">
+                    <option value="">— 選択 —</option>
+                    @foreach ($countries as $code => $label)
+                        <option value="{{ $code }}" @selected(old('country_code', $friend->country_code) === $code)>{{ $label }}</option>
+                    @endforeach
+                </select>
+                <img
+                    id="country_flag_preview"
+                    src="{{ flag_url(old('country_code', $friend->country_code)) }}"
+                    alt=""
+                    class="h-10 w-10 rounded-full object-cover ring-2 ring-[var(--color-line)] {{ flag_url(old('country_code', $friend->country_code)) ? '' : 'hidden' }}"
+                >
+            </div>
+        </div>
         <x-admin.field name="instagram" label="Instagram（@なし）" :value="$friend->instagram" placeholder="aki_golf30" />
     </div>
 
@@ -47,4 +63,18 @@
         <a href="{{ route('admin.friends.index') }}" class="link-arrow">キャンセル</a>
     </div>
 </form>
+
+<script>
+    document.getElementById('country_code')?.addEventListener('change', function () {
+        const preview = document.getElementById('country_flag_preview');
+        if (!preview) return;
+        const code = this.value.toLowerCase();
+        if (code.match(/^[a-z]{2}$/)) {
+            preview.src = 'https://flagcdn.com/w80/' + code + '.png';
+            preview.classList.remove('hidden');
+        } else {
+            preview.classList.add('hidden');
+        }
+    });
+</script>
 @endsection

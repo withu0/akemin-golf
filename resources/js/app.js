@@ -30,6 +30,35 @@ const armReveal = () => document.querySelectorAll('.reveal:not(.in)').forEach((e
 document.addEventListener('DOMContentLoaded', armReveal);
 armReveal();
 
+// Friend card videos: play when in view on touch devices (hover handles desktop)
+const initFriendCardVideos = () => {
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    document.querySelectorAll('[data-friend-card-video]').forEach((frame) => {
+        const video = frame.querySelector('video');
+        if (!video) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    video.play().catch(() => {});
+                    frame.dataset.playing = '1';
+                } else {
+                    video.pause();
+                    video.currentTime = 0;
+                    frame.dataset.playing = '0';
+                }
+            },
+            { threshold: 0.55 },
+        );
+
+        observer.observe(frame);
+    });
+};
+
+document.addEventListener('DOMContentLoaded', initFriendCardVideos);
+initFriendCardVideos();
+
 // Subtle header state on scroll
 const header = document.querySelector('[data-header]');
 if (header) {

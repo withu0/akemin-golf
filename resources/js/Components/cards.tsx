@@ -3,11 +3,43 @@ import { Link } from '@inertiajs/react';
 import type { ActivityCard, FriendCard, PostCard } from '../types';
 import { useShared, useT } from '../lib/shared';
 
+type FriendFlagProps = Pick<FriendCard, 'country' | 'flag' | 'flag_url'>;
+
+export function FriendFlagBadge({
+    country,
+    flag_url,
+    flag,
+    className = 'absolute top-4 left-4 z-10',
+    size = 'h-9 w-9',
+}: FriendFlagProps & { className?: string; size?: string }) {
+    if (flag_url) {
+        return (
+            <img
+                src={flag_url}
+                alt={country ?? ''}
+                className={`${className} ${size} rounded-full object-cover ring-2 ring-white/80 shadow-md`}
+            />
+        );
+    }
+
+    if (flag) {
+        return (
+            <span
+                className={`${className} flex ${size} items-center justify-center rounded-full bg-[var(--color-paper)]/90 text-xl shadow-md ring-2 ring-white/80`}
+            >
+                {flag}
+            </span>
+        );
+    }
+
+    return null;
+}
+
 export function FriendCardMedia({
     friend,
     className = '',
 }: {
-    friend: Pick<FriendCard, 'name' | 'photo' | 'video' | 'flag'>;
+    friend: Pick<FriendCard, 'name' | 'photo' | 'video' | 'country' | 'flag' | 'flag_url'>;
     className?: string;
 }) {
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -47,6 +79,28 @@ export function FriendCardMedia({
 
         return () => video.removeEventListener('loadeddata', showFirstFrame);
     }, [friend.video, hasVideo]);
+
+    useEffect(() => {
+        const frame = frameRef.current;
+        if (!frame || !hasVideo) return;
+
+        const hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        if (hoverCapable) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    play();
+                } else {
+                    pause();
+                }
+            },
+            { threshold: 0.55 },
+        );
+
+        observer.observe(frame);
+        return () => observer.disconnect();
+    }, [hasVideo, play, pause]);
 
     useEffect(() => {
         const onFullscreenChange = () => {
@@ -118,7 +172,9 @@ export function FriendCardMedia({
                     <button
                         type="button"
                         onClick={enterFullscreen}
-                        className="absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-black/70"
+                        className={`absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white transition-opacity hover:bg-black/70 ${
+                            playing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                        }`}
                         aria-label="Fullscreen"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
@@ -141,9 +197,7 @@ export function FriendCardMedia({
                 </>
             )}
 
-            {friend.flag && (
-                <span className="absolute top-4 left-4 z-10 text-2xl drop-shadow">{friend.flag}</span>
-            )}
+            <FriendFlagBadge country={friend.country} flag_url={friend.flag_url} flag={friend.flag} />
         </div>
     );
 }

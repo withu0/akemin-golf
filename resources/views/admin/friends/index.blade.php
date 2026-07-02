@@ -30,7 +30,16 @@
                             @if ($f->photo)<img src="{{ media_url($f->photo) }}" class="h-9 w-9 rounded-full object-cover">@endif
                             {{ $f->name }}
                         </td>
-                        <td class="px-5 py-3.5 text-sm text-[var(--color-mist)] hidden sm:table-cell">{{ $f->flag }} {{ $f->country }}</td>
+                        <td class="px-5 py-3.5 text-sm text-[var(--color-mist)] hidden sm:table-cell">
+                            <span class="inline-flex items-center gap-2">
+                                @if (flag_url($f->country_code))
+                                    <img src="{{ flag_url($f->country_code) }}" alt="" class="h-5 w-5 rounded-full object-cover ring-1 ring-[var(--color-line)]">
+                                @elseif ($f->flag)
+                                    <span>{{ $f->flag }}</span>
+                                @endif
+                                {{ $f->country }}
+                            </span>
+                        </td>
                         <td class="px-5 py-3.5 text-sm text-[var(--color-mist)] hidden md:table-cell">{{ $f->instagram }}</td>
                         <td class="px-5 py-3.5"><span class="chip {{ $f->is_published ? 'chip-on' : 'chip-off' }}">{{ $f->is_published ? '公開' : '非公開' }}</span></td>
                         <td class="px-5 py-3.5 text-right whitespace-nowrap">

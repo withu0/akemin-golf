@@ -48,6 +48,20 @@ if (! function_exists('media_url')) {
     }
 }
 
+if (! function_exists('flag_url')) {
+    /**
+     * Resolve an ISO 3166-1 alpha-2 country code to a flag PNG URL.
+     */
+    function flag_url(?string $countryCode): ?string
+    {
+        if (! $countryCode || ! preg_match('/^[a-z]{2}$/i', $countryCode)) {
+            return null;
+        }
+
+        return 'https://flagcdn.com/w80/'.strtolower($countryCode).'.png';
+    }
+}
+
 if (! function_exists('locales')) {
     /** @return array<string, array<string, string>> */
     function locales(): array

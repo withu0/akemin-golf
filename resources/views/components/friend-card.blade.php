@@ -4,8 +4,9 @@
     <div
         class="img-frame aspect-[3/4]"
         @if ($friend->video)
-        onmouseenter="const v=this.querySelector('video'); if(v){v.play(); this.dataset.playing='1';}"
-        onmouseleave="const v=this.querySelector('video'); if(v){v.pause(); v.currentTime=0;} this.dataset.playing='0';"
+        data-friend-card-video
+        onmouseenter="if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){const v=this.querySelector('video'); if(v){v.play(); this.dataset.playing='1';}}"
+        onmouseleave="if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){const v=this.querySelector('video'); if(v){v.pause(); v.currentTime=0;} this.dataset.playing='0';}"
         @endif
     >
         @if ($friend->photo)
@@ -30,7 +31,7 @@
             ></video>
             <button
                 type="button"
-                class="absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-black/70"
+                class="friend-card-fullscreen absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-black/70"
                 aria-label="Fullscreen"
                 onclick="event.stopPropagation(); const v=this.previousElementSibling; v.controls=true; v.muted=false; v.requestFullscreen?.(); v.play();"
             >
@@ -48,8 +49,14 @@
             </div>
         @endif
 
-        @if ($friend->flag)
-            <span class="absolute top-4 left-4 z-10 text-2xl drop-shadow">{{ $friend->flag }}</span>
+        @if (flag_url($friend->country_code))
+            <img
+                src="{{ flag_url($friend->country_code) }}"
+                alt="{{ $friend->country }}"
+                class="absolute top-4 left-4 z-10 h-9 w-9 rounded-full object-cover ring-2 ring-white/80 shadow-md"
+            >
+        @elseif ($friend->flag)
+            <span class="absolute top-4 left-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-paper)]/90 text-xl shadow-md ring-2 ring-white/80">{{ $friend->flag }}</span>
         @endif
     </div>
     <div class="p-5">
@@ -72,5 +79,6 @@
     .img-frame[data-playing="1"] .friend-card-video { opacity: 1; }
     .img-frame[data-playing="1"] .friend-card-photo { opacity: 0; }
     .img-frame[data-playing="1"] .friend-card-play { opacity: 0; }
+    .img-frame[data-playing="1"] .friend-card-fullscreen { opacity: 1; }
 </style>
 @endif

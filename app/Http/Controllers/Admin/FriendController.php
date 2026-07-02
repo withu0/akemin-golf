@@ -18,7 +18,10 @@ class FriendController extends Controller
 
     public function create()
     {
-        return view('admin.friends.form', ['friend' => new Friend()]);
+        return view('admin.friends.form', [
+            'friend'    => new Friend(),
+            'countries' => config('countries'),
+        ]);
     }
 
     public function store(Request $request)
@@ -32,7 +35,10 @@ class FriendController extends Controller
 
     public function edit(Friend $friend)
     {
-        return view('admin.friends.form', ['friend' => $friend]);
+        return view('admin.friends.form', [
+            'friend'    => $friend,
+            'countries' => config('countries'),
+        ]);
     }
 
     public function update(Request $request, Friend $friend)
@@ -61,6 +67,7 @@ class FriendController extends Controller
         $data = $request->validate([
             'name'         => ['required', 'string', 'max:120'],
             'country'      => ['nullable', 'string', 'max:120'],
+            'country_code' => ['nullable', 'string', 'size:2', 'alpha'],
             'flag'         => ['nullable', 'string', 'max:16'],
             'instagram'    => ['nullable', 'string', 'max:200'],
             'message'      => ['nullable', 'array'],
@@ -70,10 +77,10 @@ class FriendController extends Controller
             'video'        => ['nullable', 'file', 'mimetypes:video/mp4,video/webm,video/quicktime', 'max:102400'],
         ]);
 
-        $friend->name      = $data['name'];
-        $friend->country   = $data['country'] ?? null;
-        $friend->flag      = $data['flag'] ?? null;
-        $friend->instagram = $data['instagram'] ?? null;
+        $friend->name         = $data['name'];
+        $friend->country      = $data['country'] ?? null;
+        $friend->country_code = isset($data['country_code']) ? strtolower($data['country_code']) : null;
+        $friend->instagram    = $data['instagram'] ?? null;
         $friend->message   = $data['message'] ?? null;
         $friend->is_published = $request->boolean('is_published');
         $friend->sort      = (int) ($data['sort'] ?? 0);

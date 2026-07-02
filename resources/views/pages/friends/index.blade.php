@@ -5,7 +5,7 @@
 @section('content')
 
 <x-page-hero no="肆" :eyebrow="'Golf Friends'" seal="友"
-    title="あけみんゴルフ、友。"
+    title="あけみんゴルフ<br>友世界"
     lead="一打が、ひとつの出会い。世界中でつながった、大切な仲間たち。" />
 
 <section class="wrap py-12 md:py-16">

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useT, useUrl, useBrand } from '../lib/shared';
 import { Reveal, StaggerGroup, StaggerItem, useParallax } from '../lib/anim';
 import { ArrowRight, PlayIcon, SectionHead } from '../Components/ui';
-import { ActivityCardView, FriendCardMedia, PostCardView } from '../Components/cards';
+import { ActivityCardView, FriendCardMedia, FriendFlagBadge, PostCardView } from '../Components/cards';
 import type { ActivityCard, FriendCard, PostCard, SectionContent } from '../types';
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
@@ -204,7 +204,16 @@ export default function Home({
                                 <StaggerItem key={f.id}>
                                     <FriendCardMedia friend={f} />
                                     <p className="mt-3 display text-lg">{f.name}</p>
-                                    <p className="text-white/55 text-sm tracking-wide">{f.flag} {f.country}</p>
+                                    <p className="text-white/55 text-sm tracking-wide flex items-center gap-2">
+                                        <FriendFlagBadge
+                                            country={f.country}
+                                            flag_url={f.flag_url}
+                                            flag={f.flag}
+                                            className="relative top-0 left-0"
+                                            size="h-4 w-4"
+                                        />
+                                        {f.country}
+                                    </p>
                                 </StaggerItem>
                             ))}
                         </StaggerGroup>
