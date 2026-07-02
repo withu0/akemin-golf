@@ -89,7 +89,7 @@ export default function Home({
                                     animate={{ opacity: 1, scale: 1, rotate: -2 }}
                                     transition={{ delay: 0.8, duration: 0.6, ease: EASE }}
                                 >
-                                    明見
+                                    朱見
                                 </motion.span>
                                 <span className="tategaki absolute left-[1%] top-[2%] text-xs tracking-[0.24em] text-[var(--color-gold)] hidden lg:block z-50">
                                     {t('home.hero_tategaki')}

@@ -59,7 +59,7 @@
                         </div>
                     </figure>
 
-                    <span class="hanko absolute right-[8%] bottom-[24%] z-50 bg-[var(--color-paper)]">明見</span>
+                    <span class="hanko absolute right-[8%] bottom-[24%] z-50 bg-[var(--color-paper)]">朱見</span>
                     <span class="tategaki absolute left-[1%] top-[2%] text-xs tracking-[0.24em] text-[var(--color-gold)] hidden lg:block z-50">世界とつながるゴルフ</span>
                 </div>
             </div>

@@ -32,7 +32,7 @@ export default function About({
             <PageHero
                 no="弐"
                 eyebrow={t('pages.about.eyebrow')}
-                seal="明見"
+                seal="朱見"
                 title={about.title || t('pages.about.hero_title')}
                 lead={about.lead || t('pages.about.hero_lead')}
                 image={about.image || portrait}
