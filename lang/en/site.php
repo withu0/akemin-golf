@@ -137,7 +137,7 @@ return [
         'about' => [
             'eyebrow'      => 'About — Akemi Mitsumoto',
             'hero_title'   => 'From the world of beauty acupuncture,<br>to the green.',
-            'hero_lead'    => 'Host of Harisienne · Akemi Mitsumoto. Travelling the world while connecting friends through golf.',
+            'hero_lead'    => 'Host of Harisienne · Akemi Mitsumoto. Working around the world while connecting friends through golf.',
             'body'         => "Hello, I'm Akemi Mitsumoto (Akemin).\nI host the beauty acupuncture salon Harisienne and have studied beauty and wellness in 35 countries.\n\nGolf is life itself for me. On the green, age and nationality don't matter — one smile connects us all.\n\nBeauty, focus, health, stamina, and strong legs — golf nurtures them all. That's why I grow friends worldwide through golf, aiming to become a Global Grandmother.",
             'motto'        => 'Seeking a more beautiful future',
             'stat1_value'  => '35',

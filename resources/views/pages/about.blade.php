@@ -6,7 +6,7 @@
 
 <x-page-hero no="弐" :eyebrow="'About — '.config('site.owner_en')" seal="明見"
     :title="site_section('about')->t('title') ?: '美容鍼の世界から、<br>グリーンの上へ。'"
-    :lead="site_section('about')->t('lead') ?: 'ハリジェンヌ主宰・光本朱見。世界を旅しながら、ゴルフで友をつないでいます。'"
+    :lead="site_section('about')->t('lead') ?: 'ハリジェンヌ主宰・光本朱見。世界で仕事しながら、ゴルフで友をつないでいます。'"
     :image="media_url(site_section('about')->image, 'media/portrait.jpg')" />
 
 {{-- bio --}}

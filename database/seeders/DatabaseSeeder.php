@@ -48,9 +48,9 @@ class DatabaseSeeder extends Seeder
                     'zh' => '从美容针灸的世界，<br>走上果岭。',
                 ],
                 'lead' => [
-                    'ja' => 'ハリジェンヌ主宰・光本朱見。世界を旅しながら、ゴルフで友をつないでいます。',
-                    'en' => 'Akemi Mitsumoto, founder of Harisienne. Travelling the world, connecting friends through golf.',
-                    'zh' => 'Harisienne 创始人・光本朱见。一边环游世界，一边用高尔夫连接朋友。',
+                    'ja' => 'ハリジェンヌ主宰・光本朱見。世界で仕事しながら、ゴルフで友をつないでいます。',
+                    'en' => 'Akemi Mitsumoto, founder of Harisienne. Working around the world, connecting friends through golf.',
+                    'zh' => 'Harisienne 创始人・光本朱见。在世界各地工作的同时，用高尔夫连接朋友。',
                 ],
                 'body' => [
                     'ja' => "はじめまして、光本朱見（あけみん）です。\n美容鍼サロン「ハリジェンヌ」を主宰し、世界35カ国で美と健康を学んできました。\n\nゴルフは、私にとって人生そのもの。グリーンに立てば、言葉も年齢も国境も関係なく、ひとつの笑顔でつながれます。\n\n美容・集中力・健康・体力・足腰——ゴルフはそのすべてを磨いてくれる。だから私は、ゴルフを通して世界中に友達を増やし、エネルギーを高めながら、Global Grandmother を目指しています。",
