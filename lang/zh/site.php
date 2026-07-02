@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'brand' => [
+        'name'    => 'Akemin Golf',
+        'owner'   => '光本 朱见',
+        'tagline' => '以世界之美，改变人生',
+    ],
+
     'nav' => [
         'home'       => '首页',
         'about'      => '关于我',
@@ -24,14 +30,17 @@ return [
     ],
 
     'meta' => [
-        'menu'      => '菜单',
-        'close'     => '关闭',
-        'language'  => '语言',
-        'follow'    => 'Instagram',
-        'to_top'    => '回到顶部',
-        'founder'   => '主理人',
-        'est'       => '连接世界的高尔夫',
-        'page'      => '页面',
+        'menu'             => '菜单',
+        'close'            => '关闭',
+        'language'         => '语言',
+        'follow'           => 'Instagram',
+        'to_top'           => '回到顶部',
+        'founder'          => '主理人',
+        'est'              => '连接世界的高尔夫',
+        'page'             => '页面',
+        'connect'          => '联系',
+        'instagram'        => 'Instagram ↗',
+        'instagram_handle' => 'Instagram @akemi_harisienne_jp ↗',
     ],
 
     'footer' => [
@@ -41,16 +50,22 @@ return [
         'nav'     => '导览',
     ],
 
+    'common' => [
+        'more' => '更多',
+    ],
+
     'home' => [
-        'hero_eyebrow' => 'Golf · Beauty · World Friends',
+        'hero_eyebrow' => '高尔夫 · 美容 · 世界之友',
         'hero_title'   => '握起球杆，<br>世界便成为朋友。',
         'hero_lead'    => '透过高尔夫，在世界各地结交朋友并把他们连接起来。磨炼美丽与健康，把每一天都化作挑战——目标是成为 Global Grandmother。',
         'watch'        => '观看挥杆',
         'purpose_more' => '关于我',
+        'hero_tategaki' => '连接世界的高尔夫',
+        'about_tategaki' => '关于我',
     ],
 
     'beauty' => [
-        'eyebrow' => 'Golf & Beauty',
+        'eyebrow' => '高尔夫与美容',
         'title'   => '高尔夫，是最好的美容法。',
         'lead'    => '每一杆，身心都更趋于平衡。这是 Akemin 所相信的五种馈赠。',
         'p1_t' => '美容',   'p1_b' => '走在阳光与绿意之间，血液循环变好，肌肤与神采都焕发生机。',
@@ -58,10 +73,11 @@ return [
         'p3_t' => '健康',   'p3_b' => '一轮约一万步。微笑着行走的有氧运动，由内而外带来健康。',
         'p4_t' => '体力',   'p4_b' => '挥杆是全身运动，在快乐中锻炼核心与力量。',
         'p5_t' => '腿脚',   'p5_b' => '走过起伏，稳稳踏步。打造能用自己双脚走一辈子的腿脚。',
+        'quote' => '「追求更美的未来。」',
     ],
 
     'purpose' => [
-        'eyebrow' => 'Our Purpose',
+        'eyebrow' => '我们的信念',
         'title'   => '三个小小的约定',
         'lead'    => 'Akemin Golf 所珍视的每日约定。',
         'one_t'   => '在世界结交朋友',
@@ -73,18 +89,80 @@ return [
     ],
 
     'join' => [
-        'lead'       => '一起来握杆吧——跨越年龄，跨越国界。',
-        'name'       => '您的姓名',
-        'email'      => '电子邮箱',
-        'country'    => '国家 / 地区',
-        'interest'   => '您感兴趣的',
-        'message'    => '留言',
-        'submit'     => '发送',
-        'optional'   => '选填',
-        'thanks'     => '谢谢您',
-        'thanks_body'=> '我们已收到您的留言。Akemin 会很快与您温暖地问候。',
-        'i_golf'     => '高尔夫',
-        'i_beauty'   => '美容与健康',
-        'i_community'=> '全球的朋友圈',
+        'lead'        => '一起来握杆吧——跨越年龄，跨越国界。',
+        'hero_title'  => '成为伙伴。',
+        'intro'       => "让我们跨越国界与年龄。\n我们衷心期待热爱高尔夫的您留言。",
+        'name'        => '您的姓名',
+        'email'       => '电子邮箱',
+        'country'     => '国家 / 地区',
+        'interest'    => '您感兴趣的',
+        'message'     => '留言',
+        'submit'      => '发送',
+        'optional'    => '选填',
+        'thanks'      => '谢谢您',
+        'thanks_body' => '我们已收到您的留言。Akemin 会很快与您温暖地问候。',
+        'i_golf'      => '高尔夫',
+        'i_beauty'    => '美容与健康',
+        'i_community' => '全球的朋友圈',
+    ],
+
+    'pages' => [
+        'home' => [
+            'about_teaser_title' => '从美容针灸的世界，<br>走向果岭。',
+            'about_teaser_lead'  => 'Harisienne 主理人 · 光本朱见。在35个国家学习美容，如今透过高尔夫连接世界各地的朋友。',
+            'activities_section' => '近期活动',
+            'friends_section'    => '世界各地的高尔夫球友。',
+            'life_section'       => '高尔夫与人生。',
+        ],
+        'about' => [
+            'eyebrow'      => '关于我 — 光本 朱见',
+            'hero_title'   => '从美容针灸的世界，<br>走向果岭。',
+            'hero_lead'    => 'Harisienne 主理人 · 光本朱见。在旅途中，透过高尔夫结交朋友。',
+            'body'         => "您好，我是光本朱见（Akemin）。\n我主理美容针灸沙龙 Harisienne，在35个国家学习美容与健康。\n\n高尔夫对我来说就是人生。站在果岭上，年龄与国籍都不重要——一个笑容便能连接彼此。\n\n美容、专注力、健康、体力与腿脚——高尔夫能磨炼这一切。因此我透过高尔夫在世界各地结交朋友，目标是成为 Global Grandmother。",
+            'motto'        => '追求更美的未来',
+            'stat1_value'  => '35',
+            'stat1_label'  => '留学国家',
+            'stat2_value'  => '∞',
+            'stat2_label'  => '世界各地的朋友',
+            'stat3_value'  => '每天一步',
+            'stat3_label'  => '每日挑战',
+            'film_eyebrow' => '视频',
+            'film_title'   => '挥杆，是最好的自我介绍。',
+        ],
+        'activities' => [
+            'hero_title' => '近期活动。',
+            'hero_lead'  => '打球、旅行、相遇。Akemin Golf 充满活力的日子。',
+            'empty'      => '筹备中，请稍后再来。',
+            'more_title' => '更多活动',
+        ],
+        'friends' => [
+            'hero_title' => 'Akemin Golf 的球友。',
+            'hero_lead'  => '一杆，一次相遇。在世界各地结识的珍贵伙伴。',
+            'empty'      => '球友介绍筹备中。',
+            'cta'        => '您也想成为高尔夫球友吗？',
+        ],
+        'life' => [
+            'hero_title' => '高尔夫与人生。',
+            'hero_lead'  => '在果岭上领悟的小哲学。Akemin 写下的文字。',
+            'empty'      => '撰写中。',
+            'more_title' => '更多文字',
+            'essay'      => '随笔',
+        ],
+        'global' => [
+            'hero_title'    => '果岭，<br>延伸至世界。',
+            'hero_lead'     => '手握球杆，从一国到另一国。高尔夫是结识世界各地朋友的护照。',
+            'friends_title' => '世界各地的球友。',
+        ],
+        'future' => [
+            'hero_title' => '未来的高尔夫。',
+            'hero_lead'  => '每一杆，都开启未来。Akemin 描绘的景色。',
+            'body'       => "目标是 Global Grandmother。\n站在世界各地的果岭上，随着年龄增长更加自由、更加柔韧。\n\n希望有一天，与结识的朋友走在同一条球道上，用各自的语言欢笑。\n高尔夫是迈向那个梦想的一步。今后也会每天挑战，不断提升能量。",
+            'step1_title' => '挑战',
+            'step1_label' => '每天一点',
+            'step2_title' => '连接',
+            'step2_label' => '世界各地的朋友',
+            'step3_title' => '柔韧',
+            'step3_label' => '一生，用自己的双脚',
+        ],
     ],
 ];

@@ -1,7 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
-import { useShared, useT, useUrl, useSwitchLocale } from '../lib/shared';
+import { useShared, useT, useUrl, useSwitchLocale, useBrand } from '../lib/shared';
 import { ArrowRight } from '../Components/ui';
 
 const NAV = [
@@ -162,7 +162,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                                     rel="noopener"
                                     className="text-sm tracking-widest uppercase text-white/55 hover:text-white"
                                 >
-                                    Instagram ↗
+                                    {t('meta.instagram')}
                                 </a>
                             </div>
                         </div>
@@ -198,6 +198,7 @@ function MenuLink({ href, no, label }: { href: string; no: string; label: string
 function Footer() {
     const { site } = useShared();
     const t = useT();
+    const brand = useBrand();
     const url = useUrl();
     return (
         <footer className="relative mt-24 bg-[var(--color-sumi)] text-[var(--color-paper)] grain-dark">
@@ -207,7 +208,7 @@ function Footer() {
                         <p className="display text-2xl tracking-[0.1em] mb-4">{site.brand_ja}</p>
                         <p className="text-white/65 max-w-sm leading-relaxed">{t('footer.tagline')}</p>
                         <p className="mt-6 eyebrow before:hidden !text-[var(--color-gold-soft)]">
-                            {t('meta.founder')} — {site.owner_ja}
+                            {t('meta.founder')} — {brand.owner}
                         </p>
                     </div>
                     <div>
@@ -226,11 +227,11 @@ function Footer() {
                         </ul>
                     </div>
                     <div>
-                        <p className="eyebrow before:hidden mb-5 !text-white/40">Connect</p>
+                        <p className="eyebrow before:hidden mb-5 !text-white/40">{t('meta.connect')}</p>
                         <ul className="space-y-2.5">
                             <li>
                                 <a href={site.instagram} target="_blank" rel="noopener" className="text-white/70 hover:text-[var(--color-gold-soft)] transition-colors font-[var(--font-serif)]">
-                                    Instagram @akemi_harisienne_jp ↗
+                                    {t('meta.instagram_handle')}
                                 </a>
                             </li>
                             <li>
@@ -250,8 +251,8 @@ function Footer() {
                 <hr className="rule-gold my-12 opacity-40" />
 
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-white/45 text-xs tracking-widest uppercase font-[var(--font-label)]">
-                    <span>© {new Date().getFullYear()} {site.brand_en} · {site.owner_en}</span>
-                    <span>{site.tagline_en}</span>
+                    <span>© {new Date().getFullYear()} {brand.name} · {brand.owner}</span>
+                    <span>{brand.tagline}</span>
                 </div>
             </div>
         </footer>

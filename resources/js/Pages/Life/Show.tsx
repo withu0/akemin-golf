@@ -1,18 +1,18 @@
 import { Head, Link } from '@inertiajs/react';
-import { useShared, useT, useUrl } from '../../lib/shared';
+import { useT, useUrl, useBrand } from '../../lib/shared';
 import { Reveal, StaggerGroup, StaggerItem } from '../../lib/anim';
 import { ArrowLeft, Prose, SectionHead } from '../../Components/ui';
 import { PostCardView } from '../../Components/cards';
 import type { PostCard } from '../../types';
 
 export default function Show({ post, more }: { post: PostCard; more: PostCard[] }) {
-    const { site } = useShared();
     const t = useT();
+    const brand = useBrand();
     const url = useUrl();
 
     return (
         <>
-            <Head title={`${post.title} — ${site.brand_ja}`} />
+            <Head title={`${post.title} — ${brand.name}`} />
 
             <article className="pt-32 md:pt-40">
                 <div className="wrap-tight text-center">
@@ -52,7 +52,7 @@ export default function Show({ post, more }: { post: PostCard; more: PostCard[] 
             {more.length > 0 && (
                 <section className="wrap pb-12">
                     <hr className="rule-gold mb-12" />
-                    <SectionHead eyebrow="More" title="ほかのことば" className="mb-10" />
+                    <SectionHead eyebrow={t('common.more')} title={t('pages.life.more_title')} className="mb-10" />
                     <StaggerGroup className="grid gap-10 sm:grid-cols-3">
                         {more.map((p) => (
                             <StaggerItem key={p.id}><PostCardView post={p} /></StaggerItem>

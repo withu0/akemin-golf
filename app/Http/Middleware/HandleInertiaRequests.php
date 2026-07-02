@@ -21,10 +21,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $locale = app()->getLocale();
-
         return array_merge(parent::share($request), [
-            'locale'  => $locale,
+            'locale'  => fn () => app()->getLocale(),
             'locales' => config('site.locales'),
             'site'    => [
                 'brand_ja'   => config('site.brand_ja'),
@@ -35,9 +33,8 @@ class HandleInertiaRequests extends Middleware
                 'instagram'  => config('site.instagram'),
                 'harisienne' => config('site.harisienne'),
             ],
-            // UI strings for the active locale (nav, cta, meta, footer, join, home, purpose, beauty)
-            'lang' => trans('site'),
-            // Current path without locale prefix, so the client can build language-switch URLs
+            // Evaluated after SetLocale middleware so the active locale is correct.
+            'lang' => fn () => trans('site'),
             'flash' => [
                 'joined' => fn () => $request->session()->get('joined'),
             ],

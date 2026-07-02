@@ -1,18 +1,18 @@
 import { Head, Link } from '@inertiajs/react';
-import { useShared, useT, useUrl } from '../../lib/shared';
+import { useT, useUrl, useBrand } from '../../lib/shared';
 import { Reveal, StaggerGroup, StaggerItem } from '../../lib/anim';
 import { ArrowLeft, Prose, SectionHead } from '../../Components/ui';
 import { ActivityCardView } from '../../Components/cards';
 import type { ActivityCard } from '../../types';
 
 export default function Show({ activity, more }: { activity: ActivityCard; more: ActivityCard[] }) {
-    const { site } = useShared();
     const t = useT();
+    const brand = useBrand();
     const url = useUrl();
 
     return (
         <>
-            <Head title={`${activity.title} — ${site.brand_ja}`} />
+            <Head title={`${activity.title} — ${brand.name}`} />
 
             <article className="pt-32 md:pt-40">
                 <div className="wrap-tight">
@@ -46,7 +46,7 @@ export default function Show({ activity, more }: { activity: ActivityCard; more:
             {more.length > 0 && (
                 <section className="wrap pb-12">
                     <hr className="rule-gold mb-12" />
-                    <SectionHead eyebrow="More" title="ほかの活動" className="mb-10" />
+                    <SectionHead eyebrow={t('common.more')} title={t('pages.activities.more_title')} className="mb-10" />
                     <StaggerGroup className="grid gap-7 sm:grid-cols-3">
                         {more.map((a) => (
                             <StaggerItem key={a.id}><ActivityCardView activity={a} /></StaggerItem>

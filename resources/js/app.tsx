@@ -18,5 +18,5 @@ createInertiaApp({
             </StrictMode>,
         );
     },
-    progress: { color: '#ab8743', showSpinner: false },
+    progress: { color: '#A8D9D6', showSpinner: false },
 });

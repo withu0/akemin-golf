@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { useShared, useT, useUrl } from '../lib/shared';
+import { useT, useUrl, useBrand } from '../lib/shared';
 import { Reveal, StaggerGroup, StaggerItem, useParallax } from '../lib/anim';
 import { ArrowRight, PlayIcon, SectionHead } from '../Components/ui';
 import { ActivityCardView, PostCardView } from '../Components/cards';
@@ -22,8 +22,8 @@ export default function Home({
     friends: FriendCard[];
     posts: PostCard[];
 }) {
-    const { site } = useShared();
     const t = useT();
+    const brand = useBrand();
     const url = useUrl();
 
     // parallax layers (different depths)
@@ -36,7 +36,7 @@ export default function Home({
 
     return (
         <>
-            <Head title={`${site.brand_ja} — ${site.tagline_en}`} />
+            <Head title={`${brand.name} — ${brand.tagline}`} />
 
             {/* ============ HERO ============ */}
             <section className="relative overflow-hidden">
@@ -74,7 +74,7 @@ export default function Home({
                                 <span className="absolute right-[2%] top-[4%] w-[55%] h-[72%] border border-[var(--color-gold-soft)]/55 -translate-x-3 -translate-y-3 z-10" />
 
                                 <div ref={pPortrait} className="absolute right-0 top-0 w-[58%] z-20">
-                                    <HeroPhoto src={hero.image || '/storage/media/portrait.jpg'} aspect="aspect-[4/5]" rotate={1.5} delay={0.15} alt={site.owner_ja} />
+                                    <HeroPhoto src={hero.image || '/storage/media/portrait.jpg'} aspect="aspect-[4/5]" rotate={1.5} delay={0.15} alt={brand.owner} />
                                 </div>
                                 <div ref={pCourse} className="absolute left-0 top-[20%] w-[45%] z-30">
                                     <HeroPhoto src="/storage/media/tropical.jpg" aspect="aspect-[3/4]" rotate={-3} delay={0.3} />
@@ -92,7 +92,7 @@ export default function Home({
                                     明見
                                 </motion.span>
                                 <span className="tategaki absolute left-[1%] top-[2%] text-xs tracking-[0.24em] text-[var(--color-gold)] hidden lg:block z-50">
-                                    世界とつながるゴルフ
+                                    {t('home.hero_tategaki')}
                                 </span>
                             </div>
                         </div>
@@ -145,19 +145,19 @@ export default function Home({
                 <div className="wrap grid items-center gap-12 lg:grid-cols-2">
                     <Reveal className="relative order-2 lg:order-1">
                         <div className="img-frame aspect-[5/6] max-w-md mx-auto paper-edge group">
-                            <img src={about.image || '/storage/media/about.jpg'} alt={site.owner_ja} className="h-full w-full object-cover" />
+                            <img src={about.image || '/storage/media/about.jpg'} alt={brand.owner} className="h-full w-full object-cover" />
                         </div>
-                        <span className="tategaki absolute -left-2 -top-4 h-28 text-sm text-[var(--color-gold)] hidden md:block">自己紹介</span>
+                        <span className="tategaki absolute -left-2 -top-4 h-28 text-sm text-[var(--color-gold)] hidden md:block">{t('home.about_tategaki')}</span>
                     </Reveal>
                     <div className="order-1 lg:order-2">
                         <SectionHead
                             no="弐"
-                            eyebrow={`About — ${site.owner_en}`}
-                            title={about.title || '美容鍼の世界から、<br>グリーンの上へ。'}
+                            eyebrow={t('pages.about.eyebrow')}
+                            title={about.title || t('pages.home.about_teaser_title')}
                         />
                         <Reveal delay={0.1}>
                             <p className="prose-wa mt-7 whitespace-pre-line">
-                                {about.lead || 'ハリジェンヌ主宰・光本朱見。世界35カ国で美を学び、いまはゴルフを通して世界中に友をつないでいます。'}
+                                {about.lead || t('pages.home.about_teaser_lead')}
                             </p>
                         </Reveal>
                         <Reveal delay={0.15}>
@@ -173,7 +173,7 @@ export default function Home({
             {activities.length > 0 && (
                 <section className="wrap py-20 md:py-28">
                     <div className="flex flex-wrap items-end justify-between gap-6 mb-12 md:mb-16">
-                        <SectionHead no="参" eyebrow={t('nav.activities')} title="最近の活動" />
+                        <SectionHead no="参" eyebrow={t('nav.activities')} title={t('pages.home.activities_section')} />
                         <Reveal>
                             <Link href={url('/activities')} className="link-arrow">{t('cta.view_all')} <ArrowRight /></Link>
                         </Reveal>
@@ -193,7 +193,7 @@ export default function Home({
                         <div className="flex flex-wrap items-end justify-between gap-6 mb-12 md:mb-16">
                             <Reveal className="max-w-2xl">
                                 <span className="eyebrow !text-[var(--color-gold-soft)]">{t('nav.global')}</span>
-                                <h2 className="mt-5 display text-3xl md:text-[2.6rem] leading-snug">世界に、ゴルフ友。</h2>
+                                <h2 className="mt-5 display text-3xl md:text-[2.6rem] leading-snug">{t('pages.home.friends_section')}</h2>
                             </Reveal>
                             <Reveal>
                                 <Link href={url('/friends')} className="link-arrow !text-[var(--color-paper)]">{t('cta.view_all')} <ArrowRight /></Link>
@@ -222,7 +222,7 @@ export default function Home({
             {posts.length > 0 && (
                 <section className="wrap py-20 md:py-28">
                     <div className="flex flex-wrap items-end justify-between gap-6 mb-12 md:mb-16">
-                        <SectionHead no="肆" eyebrow={t('nav.life')} title="ゴルフと、人生。" />
+                        <SectionHead no="肆" eyebrow={t('nav.life')} title={t('pages.home.life_section')} />
                         <Reveal>
                             <Link href={url('/life')} className="link-arrow">{t('cta.view_all')} <ArrowRight /></Link>
                         </Reveal>

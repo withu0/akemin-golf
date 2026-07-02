@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import { useShared, useT } from '../lib/shared';
+import { useShared, useT, useBrand } from '../lib/shared';
 import { Reveal, StaggerGroup, StaggerItem } from '../lib/anim';
 import { PageHero, Prose } from '../Components/ui';
 import type { SectionContent } from '../types';
@@ -7,11 +7,12 @@ import type { SectionContent } from '../types';
 export default function Beauty({ beauty }: { beauty: SectionContent }) {
     const { site } = useShared();
     const t = useT();
+    const brand = useBrand();
     const pillars = ['p1', 'p2', 'p3', 'p4', 'p5'];
 
     return (
         <>
-            <Head title={`${t('nav.beauty')} — ${site.brand_ja}`} />
+            <Head title={`${t('nav.beauty')} — ${brand.name}`} />
 
             <PageHero
                 no="弐"
@@ -44,7 +45,7 @@ export default function Beauty({ beauty }: { beauty: SectionContent }) {
                 <Reveal className="bg-[var(--color-paper)] border border-[var(--color-line)] px-8 py-14 md:py-20 text-center">
                     <span className="eyebrow">Harisienne</span>
                     <p className="display text-2xl md:text-4xl leading-snug max-w-3xl mx-auto mt-6 text-balance">
-                        「より美しく、未来を求めて。」
+                        {t('beauty.quote')}
                     </p>
                     <a href={site.harisienne} target="_blank" rel="noopener" className="link-arrow mt-8">
                         {t('footer.also')} <span>↗</span>

@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
 import type { ActivityCard, FriendCard, PostCard } from '../types';
-import { useShared } from '../lib/shared';
+import { useShared, useT } from '../lib/shared';
 
 export function ActivityCardView({ activity }: { activity: ActivityCard }) {
     const { site } = useShared();
@@ -65,6 +65,7 @@ export function FriendCardView({ friend }: { friend: FriendCard }) {
 }
 
 export function PostCardView({ post }: { post: PostCard }) {
+    const t = useT();
     return (
         <Link href={post.url} className="group block">
             <div className="img-frame aspect-[16/10] mb-5">
@@ -72,7 +73,7 @@ export function PostCardView({ post }: { post: PostCard }) {
                     <img src={post.cover} alt={post.title} className="h-full w-full object-cover" />
                 ) : (
                     <div className="h-full w-full grid place-items-center text-[var(--color-mist)] display text-2xl">
-                        エッセイ
+                        {t('pages.life.essay')}
                     </div>
                 )}
             </div>

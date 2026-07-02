@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import { useShared, useT, useUrl } from '../lib/shared';
+import { useT, useUrl, useBrand } from '../lib/shared';
 import { Reveal, StaggerGroup, StaggerItem } from '../lib/anim';
 import { ArrowRight, PageHero, Prose, SectionHead } from '../Components/ui';
 import { FriendCardView } from '../Components/cards';
@@ -8,20 +8,20 @@ import type { FriendCard, SectionContent } from '../types';
 const CITIES = ['東京 Tokyo', 'Los Angeles', 'Singapore', 'Dubai', 'Paris', 'Mumbai'];
 
 export default function Global({ global, friends }: { global: SectionContent; friends: FriendCard[] }) {
-    const { site } = useShared();
     const t = useT();
+    const brand = useBrand();
     const url = useUrl();
 
     return (
         <>
-            <Head title={`${t('nav.global')} — ${site.brand_ja}`} />
+            <Head title={`${t('nav.global')} — ${brand.name}`} />
 
             <PageHero
                 no="漆"
-                eyebrow="Global Golf"
+                eyebrow={t('nav.global')}
                 seal="世界"
-                title={global.title || 'グリーンは、<br>世界へつづいている。'}
-                lead={global.lead || 'クラブひとつを携えて、国から国へ。ゴルフは、世界中の友と出会うためのパスポート。'}
+                title={global.title || t('pages.global.hero_title')}
+                lead={global.lead || t('pages.global.hero_lead')}
                 image={global.image || '/storage/media/airport.jpg'}
             />
 
@@ -44,7 +44,7 @@ export default function Global({ global, friends }: { global: SectionContent; fr
 
             {friends.length > 0 && (
                 <section className="wrap py-12 md:py-16">
-                    <SectionHead eyebrow={t('nav.friends')} title="世界の、ゴルフ友。" className="mb-10 md:mb-14" />
+                    <SectionHead eyebrow={t('nav.friends')} title={t('pages.global.friends_title')} className="mb-10 md:mb-14" />
                     <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         {friends.map((f) => (
                             <StaggerItem key={f.id}><FriendCardView friend={f} /></StaggerItem>

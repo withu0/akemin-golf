@@ -16,6 +16,16 @@ export function useT() {
     };
 }
 
+/** Locale-aware brand name, owner, and tagline from the lang bundle. */
+export function useBrand() {
+    const t = useT();
+    return {
+        name: t('brand.name'),
+        owner: t('brand.owner'),
+        tagline: t('brand.tagline'),
+    };
+}
+
 /** Build a locale-prefixed URL, e.g. useUrl()('/about') => '/ja/about'. */
 export function useUrl() {
     const { locale } = useShared();

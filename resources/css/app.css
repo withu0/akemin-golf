@@ -5,7 +5,7 @@
 
 /* =========================================================================
    あけみんゴルフ — 和モダン design tokens
-   Palette & type drawn from the Harisienne brand: washi / sumi / champagne-gold.
+   Palette: mint primary / taupe secondary / cool off-white surfaces.
    ========================================================================= */
 @theme {
     --font-sans:    'Noto Sans JP', ui-sans-serif, system-ui, sans-serif;
@@ -13,17 +13,17 @@
     --font-display: 'Cormorant Garamond', 'Shippori Mincho', serif;
     --font-label:   'Jost', 'Noto Sans JP', sans-serif;
 
-    --color-washi:     #f5efe2;
-    --color-washi-2:   #ece1cd;
-    --color-paper:     #fbf8f1;
-    --color-sumi:      #211d16;
-    --color-sumi-soft: #4c4234;
-    --color-mist:      #8a7f6c;
-    --color-gold:      #ab8743;
-    --color-gold-soft: #c7a96b;
+    --color-washi:     #F6F8F7;
+    --color-washi-2:   #E8EFED;
+    --color-paper:     #FCFCFA;
+    --color-sumi:      #4A4239;
+    --color-sumi-soft: #5C534A;
+    --color-mist:      #A39487;
+    --color-gold:      #A8D9D6;
+    --color-gold-soft: #C5EBE9;
     --color-shu:       #ad4429;
-    --color-matsuba:   #2f3a30;
-    --color-line:      rgba(33, 29, 22, 0.14);
+    --color-matsuba:   #6E6358;
+    --color-line:      rgba(74, 66, 57, 0.14);
 }
 
 /* ============================ Base ============================ */
@@ -39,10 +39,10 @@
         letter-spacing: 0.02em;
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
-        /* layered washi grain: fine fibre noise over a warm paper wash */
+        /* layered grain: fine fibre noise over a cool mint-tinted wash */
         background-image:
-            radial-gradient(circle at 18% 12%, rgba(199, 169, 107, 0.10), transparent 42%),
-            radial-gradient(circle at 86% 78%, rgba(47, 58, 48, 0.06), transparent 46%),
+            radial-gradient(circle at 18% 12%, rgba(168, 217, 214, 0.10), transparent 42%),
+            radial-gradient(circle at 86% 78%, rgba(110, 99, 88, 0.06), transparent 46%),
             url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
         background-attachment: fixed, fixed, fixed;
     }
@@ -162,7 +162,7 @@
         border: 1px solid var(--color-line);
         transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.5s ease;
     }
-    .card:hover { transform: translateY(-6px); box-shadow: 0 26px 50px -28px rgba(33, 29, 22, 0.45); }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 26px 50px -28px rgba(74, 66, 57, 0.45); }
 
     .img-frame { position: relative; overflow: hidden; background: var(--color-washi-2); }
     .img-frame img { transition: transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1); }
@@ -200,7 +200,7 @@
         border-bottom: 1px solid transparent;
     }
     .site-header.is-scrolled {
-        background: rgba(245, 239, 226, 0.86);
+        background: rgba(246, 248, 247, 0.86);
         backdrop-filter: blur(10px);
         border-bottom-color: var(--color-line);
     }
@@ -258,7 +258,7 @@
     .admin-input:focus {
         outline: none;
         border-color: var(--color-gold);
-        box-shadow: 0 0 0 3px rgba(199, 169, 107, 0.18);
+        box-shadow: 0 0 0 3px rgba(168, 217, 214, 0.18);
     }
     .admin-card {
         background: var(--color-paper);
@@ -267,15 +267,15 @@
     }
     .admin-th { font-family: var(--font-label); text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.62rem; color: var(--color-mist); }
     .chip { display: inline-block; padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.7rem; letter-spacing: 0.08em; }
-    .chip-on  { background: rgba(47, 58, 48, 0.12); color: var(--color-matsuba); }
-    .chip-off { background: rgba(33, 29, 22, 0.08); color: var(--color-mist); }
+    .chip-on  { background: rgba(110, 99, 88, 0.12); color: var(--color-matsuba); }
+    .chip-off { background: rgba(74, 66, 57, 0.08); color: var(--color-mist); }
     .chip-new { background: var(--color-shu); color: #fff; }
 }
 
 /* ===================== decorative utilities ===================== */
 @layer utilities {
     .text-balance { text-wrap: balance; }
-    .paper-edge { box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 30px 60px -40px rgba(33,29,22,0.5); }
+    .paper-edge { box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 30px 60px -40px rgba(74,66,57,0.5); }
     .grain-dark {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
     }

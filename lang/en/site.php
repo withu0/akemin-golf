@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'brand' => [
+        'name'    => 'Akemin Golf',
+        'owner'   => 'Akemi Mitsumoto',
+        'tagline' => 'Change Life with World Beauty',
+    ],
+
     'nav' => [
         'home'       => 'Home',
         'about'      => 'About',
@@ -24,14 +30,17 @@ return [
     ],
 
     'meta' => [
-        'menu'      => 'Menu',
-        'close'     => 'Close',
-        'language'  => 'Language',
-        'follow'    => 'Instagram',
-        'to_top'    => 'To top',
-        'founder'   => 'Host',
-        'est'       => 'Golf that connects the world',
-        'page'      => 'Page',
+        'menu'             => 'Menu',
+        'close'            => 'Close',
+        'language'         => 'Language',
+        'follow'           => 'Instagram',
+        'to_top'           => 'To top',
+        'founder'          => 'Host',
+        'est'              => 'Golf that connects the world',
+        'page'             => 'Page',
+        'connect'          => 'Connect',
+        'instagram'        => 'Instagram ↗',
+        'instagram_handle' => 'Instagram @akemi_harisienne_jp ↗',
     ],
 
     'footer' => [
@@ -41,12 +50,18 @@ return [
         'nav'     => 'Explore',
     ],
 
+    'common' => [
+        'more' => 'More',
+    ],
+
     'home' => [
         'hero_eyebrow' => 'Golf · Beauty · World Friends',
         'hero_title'   => 'Hold a club, <br>and the world becomes a friend.',
         'hero_lead'    => 'Through golf, I make friends across the world and connect them. Polishing beauty and health, turning each day into a challenge — aiming to become a Global Grandmother.',
         'watch'        => 'Watch the swing',
         'purpose_more' => 'About me',
+        'hero_tategaki' => 'Golf that connects the world',
+        'about_tategaki' => 'About me',
     ],
 
     'beauty' => [
@@ -58,6 +73,7 @@ return [
         'p3_t' => 'Health',        'p3_b' => 'Around 10,000 steps a round. A smiling, aerobic walk builds health from within.',
         'p4_t' => 'Stamina',       'p4_b' => 'The swing is a whole-body motion — core and strength, trained while having fun.',
         'p5_t' => 'Strong legs',   'p5_b' => 'Walking the hills, planting each step — legs that carry you for a lifetime.',
+        'quote' => '“Seeking a more beautiful future.”',
     ],
 
     'purpose' => [
@@ -73,18 +89,80 @@ return [
     ],
 
     'join' => [
-        'lead'       => 'Come hold a club with us — beyond age, beyond borders.',
-        'name'       => 'Your name',
-        'email'      => 'Email address',
-        'country'    => 'Country / region',
-        'interest'   => 'What draws you in',
-        'message'    => 'Message',
-        'submit'     => 'Send',
-        'optional'   => 'optional',
-        'thanks'     => 'Thank you',
-        'thanks_body'=> 'Your message has reached us. Akemin will be in touch with a warm hello.',
-        'i_golf'     => 'Golf',
-        'i_beauty'   => 'Beauty & wellness',
-        'i_community'=> 'A global circle of friends',
+        'lead'        => 'Come hold a club with us — beyond age, beyond borders.',
+        'hero_title'  => 'Become one of us.',
+        'intro'       => "Let's go beyond borders and age.\nWe warmly await a message from you who love golf.",
+        'name'        => 'Your name',
+        'email'       => 'Email address',
+        'country'     => 'Country / region',
+        'interest'    => 'What draws you in',
+        'message'     => 'Message',
+        'submit'      => 'Send',
+        'optional'    => 'optional',
+        'thanks'      => 'Thank you',
+        'thanks_body' => 'Your message has reached us. Akemin will be in touch with a warm hello.',
+        'i_golf'      => 'Golf',
+        'i_beauty'    => 'Beauty & wellness',
+        'i_community' => 'A global circle of friends',
+    ],
+
+    'pages' => [
+        'home' => [
+            'about_teaser_title' => 'From the world of beauty acupuncture,<br>to the green.',
+            'about_teaser_lead'  => 'Host of Harisienne · Akemi Mitsumoto. Having studied beauty in 35 countries, she now connects friends around the world through golf.',
+            'activities_section' => 'Recent activities',
+            'friends_section'    => 'Golf friends, worldwide.',
+            'life_section'       => 'Golf & life.',
+        ],
+        'about' => [
+            'eyebrow'      => 'About — Akemi Mitsumoto',
+            'hero_title'   => 'From the world of beauty acupuncture,<br>to the green.',
+            'hero_lead'    => 'Host of Harisienne · Akemi Mitsumoto. Travelling the world while connecting friends through golf.',
+            'body'         => "Hello, I'm Akemi Mitsumoto (Akemin).\nI host the beauty acupuncture salon Harisienne and have studied beauty and wellness in 35 countries.\n\nGolf is life itself for me. On the green, age and nationality don't matter — one smile connects us all.\n\nBeauty, focus, health, stamina, and strong legs — golf nurtures them all. That's why I grow friends worldwide through golf, aiming to become a Global Grandmother.",
+            'motto'        => 'Seeking a more beautiful future',
+            'stat1_value'  => '35',
+            'stat1_label'  => 'Countries studied',
+            'stat2_value'  => '∞',
+            'stat2_label'  => 'Friends worldwide',
+            'stat3_value'  => '1 step/day',
+            'stat3_label'  => 'A challenge a day',
+            'film_eyebrow' => 'Film',
+            'film_title'   => 'The swing is my best introduction.',
+        ],
+        'activities' => [
+            'hero_title' => 'Recent activities.',
+            'hero_lead'  => 'Rounds, journeys, encounters. The vibrant days of Akemin Golf.',
+            'empty'      => 'Coming soon. Please check back shortly.',
+            'more_title' => 'More activities',
+        ],
+        'friends' => [
+            'hero_title' => 'Akemin Golf friends.',
+            'hero_lead'  => 'One shot, one encounter. Dear companions connected around the world.',
+            'empty'      => 'Introducing our friends soon.',
+            'cta'        => 'Would you like to become a golf friend too?',
+        ],
+        'life' => [
+            'hero_title' => 'Golf & life.',
+            'hero_lead'  => 'Small philosophies noticed on the green. Words written by Akemin.',
+            'empty'      => 'Writing in progress.',
+            'more_title' => 'More words',
+            'essay'      => 'Essay',
+        ],
+        'global' => [
+            'hero_title'     => 'The green<br>extends worldwide.',
+            'hero_lead'      => 'Club in hand, from country to country. Golf is a passport to meet friends around the world.',
+            'friends_title'  => 'Golf friends worldwide.',
+        ],
+        'future' => [
+            'hero_title' => 'Golf, ahead.',
+            'hero_lead'  => 'With every shot, opening the future. The landscape Akemin envisions.',
+            'body'       => "The goal is Global Grandmother.\nStanding on greens worldwide, growing freer and more graceful with age.\n\nSomeday, walking the same course with friends I've met, laughing in each other's languages.\nGolf is a step toward that dream. I'll keep challenging myself every day and raising my energy.",
+            'step1_title' => 'Challenge',
+            'step1_label' => 'One each day',
+            'step2_title' => 'Connection',
+            'step2_label' => 'Friends worldwide',
+            'step3_title' => 'Grace',
+            'step3_label' => 'On your own feet, for life',
+        ],
     ],
 ];

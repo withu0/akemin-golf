@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Jost:wght@400;500&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css'])
 </head>
-<body class="h-screen bg-[var(--color-washi)] overflow-hidden">
+<body class="min-h-screen bg-[var(--color-washi)]">
 
 @php
     $adminNav = [
@@ -23,9 +23,9 @@
     ];
 @endphp
 
-<div class="flex h-screen">
+<div class="flex min-h-screen">
     {{-- sidebar --}}
-    <aside class="hidden md:flex w-64 shrink-0 flex-col h-screen overflow-y-auto bg-[var(--color-sumi)] grain-dark text-[var(--color-paper)] p-6">
+    <aside class="hidden md:flex w-64 shrink-0 flex-col sticky top-0 self-start h-screen bg-[var(--color-sumi)] grain-dark text-[var(--color-paper)] p-6">
         <a href="{{ route('admin.dashboard') }}" class="display text-xl tracking-[0.1em] mb-1">{{ config('site.brand_ja') }}</a>
         <p class="eyebrow before:hidden !text-white/40 !text-[0.55rem] mb-8">Studio · 管理画面</p>
 
@@ -48,7 +48,7 @@
     </aside>
 
     {{-- main --}}
-    <div class="flex-1 min-w-0 overflow-y-auto">
+    <div class="flex-1 min-w-0">
         {{-- mobile topbar --}}
         <div class="md:hidden flex items-center justify-between bg-[var(--color-sumi)] text-[var(--color-paper)] px-5 py-4">
             <span class="display tracking-wide">{{ config('site.brand_ja') }} 管理</span>

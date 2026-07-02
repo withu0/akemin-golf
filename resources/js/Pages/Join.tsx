@@ -1,12 +1,13 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useShared, useT, useUrl } from '../lib/shared';
+import { useShared, useT, useUrl, useBrand } from '../lib/shared';
 import { Reveal } from '../lib/anim';
 import { ArrowRight, PageHero } from '../Components/ui';
 
 export default function Join({ image }: { image: string }) {
     const { site, flash } = useShared();
     const t = useT();
+    const brand = useBrand();
     const url = useUrl();
 
     const form = useForm({ name: '', email: '', country: '', interest: '', message: '' });
@@ -24,9 +25,9 @@ export default function Join({ image }: { image: string }) {
 
     return (
         <>
-            <Head title={`${t('nav.join')} — ${site.brand_ja}`} />
+            <Head title={`${t('nav.join')} — ${brand.name}`} />
 
-            <PageHero no="捌" eyebrow="Join Us" seal="募集" title="仲間に、なる。" lead={t('join.lead')} />
+            <PageHero no="捌" eyebrow={t('nav.join')} seal="募集" title={t('join.hero_title')} lead={t('join.lead')} />
 
             <section className="wrap py-10 md:py-16">
                 <div className="grid gap-12 lg:gap-16 lg:grid-cols-[0.85fr_1.15fr]">
@@ -34,12 +35,11 @@ export default function Join({ image }: { image: string }) {
                         <div className="img-frame aspect-[4/5] max-w-sm paper-edge mb-8">
                             <img src={image} alt="" className="h-full w-full object-cover" />
                         </div>
-                        <p className="prose-wa">
-                            国境も、年齢も、こえていきましょう。<br />
-                            ゴルフを愛するあなたからのメッセージを、こころよりお待ちしています。
+                        <p className="prose-wa whitespace-pre-line">
+                            {t('join.intro')}
                         </p>
                         <a href={site.instagram} target="_blank" rel="noopener" className="link-arrow mt-6">
-                            Instagram @akemi_harisienne_jp <ArrowRight />
+                            {t('meta.instagram_handle')} <ArrowRight />
                         </a>
                     </Reveal>
 
