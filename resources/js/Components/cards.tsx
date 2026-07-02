@@ -32,6 +32,23 @@ export function FriendCardMedia({
     }, [fullscreen]);
 
     useEffect(() => {
+        const video = videoRef.current;
+        if (!video || !hasVideo) return;
+
+        const showFirstFrame = () => {
+            video.currentTime = 0;
+            video.pause();
+        };
+
+        video.addEventListener('loadeddata', showFirstFrame);
+        if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+            showFirstFrame();
+        }
+
+        return () => video.removeEventListener('loadeddata', showFirstFrame);
+    }, [friend.video, hasVideo]);
+
+    useEffect(() => {
         const onFullscreenChange = () => {
             const video = videoRef.current;
             const frame = frameRef.current;
@@ -78,26 +95,24 @@ export function FriendCardMedia({
                 <img
                     src={friend.photo}
                     alt={friend.name}
-                    className={`h-full w-full object-cover transition-opacity duration-300 ${hasVideo && playing ? 'opacity-0' : ''}`}
+                    className={`relative z-[1] h-full w-full object-cover transition-opacity duration-300 ${hasVideo && playing ? 'opacity-0' : ''}`}
                 />
             ) : !hasVideo ? (
                 <div className="h-full w-full grid place-items-center text-5xl">{friend.flag ?? '⛳'}</div>
-            ) : (
-                <div className="h-full w-full grid place-items-center text-5xl bg-[var(--color-washi-2)]">
-                    {friend.flag ?? '⛳'}
-                </div>
-            )}
+            ) : null}
 
             {hasVideo && (
                 <>
                     <video
                         ref={videoRef}
                         src={friend.video!}
-                        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${playing ? 'opacity-100' : 'opacity-0'}`}
+                        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+                            !friend.photo || playing ? 'opacity-100' : 'opacity-0'
+                        }`}
                         muted
                         loop
                         playsInline
-                        preload="metadata"
+                        preload={friend.photo ? 'metadata' : 'auto'}
                         poster={friend.photo ?? undefined}
                     />
                     <button

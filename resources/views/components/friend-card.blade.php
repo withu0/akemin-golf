@@ -12,22 +12,20 @@
             <img
                 src="{{ media_url($friend->photo) }}"
                 alt="{{ $friend->name }}"
-                class="h-full w-full object-cover transition-opacity duration-300 friend-card-photo"
+                class="relative z-[1] h-full w-full object-cover transition-opacity duration-300 friend-card-photo"
             >
         @elseif (! $friend->video)
             <div class="h-full w-full grid place-items-center text-5xl">{{ $friend->flag ?: '⛳' }}</div>
-        @else
-            <div class="h-full w-full grid place-items-center text-5xl bg-[var(--color-washi-2)]">{{ $friend->flag ?: '⛳' }}</div>
         @endif
 
         @if ($friend->video)
             <video
                 src="{{ media_url($friend->video) }}"
-                class="friend-card-video absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300"
+                class="friend-card-video absolute inset-0 h-full w-full object-cover transition-opacity duration-300 {{ $friend->photo ? 'opacity-0' : 'opacity-100' }}"
                 muted
                 loop
                 playsinline
-                preload="metadata"
+                preload="{{ $friend->photo ? 'metadata' : 'auto' }}"
                 @if ($friend->photo) poster="{{ media_url($friend->photo) }}" @endif
             ></video>
             <button
