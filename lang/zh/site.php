@@ -106,6 +106,26 @@ return [
         'i_community' => '全球的朋友圈',
     ],
 
+    'mail' => [
+        'join_auto_reply' => [
+            'subject'  => '【Akemin Golf】我们已收到您的留言',
+            'greeting' => ':name 您好，',
+            'body'     => '感谢您通过 Akemin Golf 招募表单留言。我们已收到您的消息，Akemin 会很快与您温暖地问候。',
+            'closing'  => 'Akemin Golf',
+        ],
+        'join_admin' => [
+            'subject'  => '【Akemin Golf】新的招募申请：:name',
+            'intro'    => '招募表单收到新的申请。',
+            'name'     => '姓名',
+            'email'    => '电子邮箱',
+            'country'  => '国家 / 地区',
+            'interest' => '兴趣',
+            'message'  => '留言',
+            'locale'   => '语言',
+            'none'     => '（未填写）',
+        ],
+    ],
+
     'pages' => [
         'home' => [
             'about_teaser_title' => '从美容针灸的世界，<br>走向果岭。',

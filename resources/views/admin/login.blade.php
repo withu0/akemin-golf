@@ -13,8 +13,7 @@
 
     <div class="w-full max-w-sm">
         <div class="text-center mb-10">
-            <span class="hanko mx-auto mb-6 bg-transparent !text-[var(--color-gold-soft)] !border-[var(--color-gold-soft)]">明見</span>
-            <p class="display text-2xl tracking-[0.1em]">{{ config('site.brand_ja') }}</p>
+            <x-logo variant="center" tone="gold" class="mb-2" />
             <p class="eyebrow before:hidden !text-white/40 mt-2">Studio Login</p>
         </div>
 

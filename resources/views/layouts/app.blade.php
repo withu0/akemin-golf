@@ -30,9 +30,8 @@
 {{-- ============================ Header ============================ --}}
 <header data-header class="site-header fixed inset-x-0 top-0 z-50">
     <div class="wrap flex items-center justify-between py-5">
-        <a href="{{ route('home') }}" class="flex items-baseline gap-3 leading-none">
-            <span class="display text-xl md:text-2xl tracking-[0.12em]">{{ config('site.brand_ja') }}</span>
-            <span class="hidden sm:inline eyebrow !text-[0.55rem] before:hidden">Akemin&nbsp;Golf</span>
+        <a href="{{ route('home') }}">
+            <x-logo />
         </a>
 
         <nav class="hidden lg:flex items-center gap-7">
@@ -70,7 +69,7 @@
 <div id="site-menu" class="grain-dark">
     <div class="wrap h-full flex flex-col">
         <div class="flex items-center justify-between py-5">
-            <span class="display text-xl text-[var(--color-paper)] tracking-[0.12em]">{{ config('site.brand_ja') }}</span>
+            <x-logo variant="menu" tone="light" />
             <button data-menu-close aria-label="{{ __('site.meta.close') }}" class="eyebrow before:hidden !text-[var(--color-gold-soft)] !tracking-[0.3em]">{{ __('site.meta.close') }} ✕</button>
         </div>
 
@@ -104,7 +103,7 @@
     <div class="wrap py-16 md:py-20">
         <div class="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
             <div>
-                <p class="display text-2xl tracking-[0.1em] mb-4">{{ config('site.brand_ja') }}</p>
+                <x-logo variant="footer" tone="gold" :show-en="false" class="mb-4" />
                 <p class="text-white/65 max-w-sm leading-relaxed">{{ __('site.footer.tagline') }}</p>
                 <p class="mt-6 eyebrow before:hidden !text-[var(--color-gold-soft)]">{{ __('site.meta.founder') }} — {{ config('site.owner_ja') }}</p>
             </div>

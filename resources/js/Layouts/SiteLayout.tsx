@@ -2,6 +2,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { useEffect, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { useShared, useT, useUrl, useSwitchLocale, useBrand } from '../lib/shared';
+import { Logo } from '../Components/Logo';
 import { ArrowRight } from '../Components/ui';
 
 const NAV = [
@@ -47,9 +48,8 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             {/* ---------------- Header ---------------- */}
             <header className={`site-header fixed inset-x-0 top-0 z-50 ${scrolled ? 'is-scrolled' : ''}`}>
                 <div className="wrap flex items-center justify-between py-5">
-                    <Link href={url('')} className="flex items-baseline gap-3 leading-none">
-                        <span className="display text-xl md:text-2xl tracking-[0.12em]">{site.brand_ja}</span>
-                        <span className="hidden sm:inline eyebrow !text-[0.55rem] before:hidden">Akemin&nbsp;Golf</span>
+                    <Link href={url('')}>
+                        <Logo brandJa={site.brand_ja} variant="header" />
                     </Link>
 
                     <nav className="hidden lg:flex items-center gap-7">
@@ -116,7 +116,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
                     >
                         <div className="wrap h-full flex flex-col">
                             <div className="flex items-center justify-between py-5">
-                                <span className="display text-xl tracking-[0.12em]">{site.brand_ja}</span>
+                                <Logo brandJa={site.brand_ja} tone="light" variant="menu" />
                                 <button
                                     onClick={() => setMenuOpen(false)}
                                     className="eyebrow before:hidden !text-[var(--color-gold-soft)] !tracking-[0.3em]"
@@ -205,7 +205,7 @@ function Footer() {
             <div className="wrap py-16 md:py-20">
                 <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
                     <div>
-                        <p className="display text-2xl tracking-[0.1em] mb-4">{site.brand_ja}</p>
+                        <Logo brandJa={site.brand_ja} tone="gold" variant="footer" showEn={false} className="mb-4" />
                         <p className="text-white/65 max-w-sm leading-relaxed">{t('footer.tagline')}</p>
                         <p className="mt-6 eyebrow before:hidden !text-[var(--color-gold-soft)]">
                             {t('meta.founder')} — {brand.owner}

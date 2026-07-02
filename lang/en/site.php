@@ -106,6 +106,26 @@ return [
         'i_community' => 'A global circle of friends',
     ],
 
+    'mail' => [
+        'join_auto_reply' => [
+            'subject'  => '[Akemin Golf] We received your message',
+            'greeting' => 'Dear :name,',
+            'body'     => 'Thank you for reaching out through the Akemin Golf join form. Your message has reached us. Akemin will be in touch with a warm hello.',
+            'closing'  => 'Akemin Golf',
+        ],
+        'join_admin' => [
+            'subject'  => '[Akemin Golf] New join application: :name',
+            'intro'    => 'A new application was submitted via the join form.',
+            'name'     => 'Name',
+            'email'    => 'Email',
+            'country'  => 'Country / region',
+            'interest' => 'Interest',
+            'message'  => 'Message',
+            'locale'   => 'Locale',
+            'none'     => '(not provided)',
+        ],
+    ],
+
     'pages' => [
         'home' => [
             'about_teaser_title' => 'From the world of beauty acupuncture,<br>to the green.',

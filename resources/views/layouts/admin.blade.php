@@ -26,7 +26,9 @@
 <div class="flex min-h-screen">
     {{-- sidebar --}}
     <aside class="hidden md:flex w-64 shrink-0 flex-col sticky top-0 self-start h-screen bg-[var(--color-sumi)] grain-dark text-[var(--color-paper)] p-6">
-        <a href="{{ route('admin.dashboard') }}" class="display text-xl tracking-[0.1em] mb-1">{{ config('site.brand_ja') }}</a>
+        <a href="{{ route('admin.dashboard') }}" class="mb-2">
+            <x-logo variant="menu" tone="light" :show-en="false" />
+        </a>
         <p class="eyebrow before:hidden !text-white/40 !text-[0.55rem] mb-8">Studio · 管理画面</p>
 
         <nav class="flex-1 space-y-1">
@@ -51,7 +53,7 @@
     <div class="flex-1 min-w-0">
         {{-- mobile topbar --}}
         <div class="md:hidden flex items-center justify-between bg-[var(--color-sumi)] text-[var(--color-paper)] px-5 py-4">
-            <span class="display tracking-wide">{{ config('site.brand_ja') }} 管理</span>
+            <x-logo variant="menu" tone="light" :show-en="false" />
             <form method="POST" action="{{ route('admin.logout') }}">@csrf<button class="text-xs uppercase tracking-widest">出</button></form>
         </div>
 

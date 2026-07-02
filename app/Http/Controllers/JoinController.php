@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ApplicationAdminNotification;
+use App\Mail\ApplicationAutoReply;
 use App\Models\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class JoinController extends Controller
@@ -27,8 +31,29 @@ class JoinController extends Controller
 
         $data['locale'] = app()->getLocale();
 
-        Application::create($data);
+        $application = Application::create($data);
+
+        $this->sendApplicationEmails($application);
 
         return redirect()->route('join')->with('joined', true);
+    }
+
+    private function sendApplicationEmails(Application $application): void
+    {
+        try {
+            if (filled($application->email)) {
+                Mail::to($application->email)->send(new ApplicationAutoReply($application));
+            }
+
+            $adminEmail = config('site.admin_email');
+            if (filled($adminEmail)) {
+                Mail::to($adminEmail)->send(new ApplicationAdminNotification($application));
+            }
+        } catch (\Throwable $e) {
+            Log::error('Failed to send join application emails.', [
+                'application_id' => $application->id,
+                'message'        => $e->getMessage(),
+            ]);
+        }
     }
 }

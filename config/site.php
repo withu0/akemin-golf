@@ -11,6 +11,7 @@ return [
 
     'instagram'  => 'https://www.instagram.com/akemi_harisienne_jp/',
     'harisienne' => 'https://harisienne.com/',
+    'admin_email' => env('MAIL_ADMIN_ADDRESS'),
 
     // Supported locales (first = default). Used by SetLocale middleware & switcher.
     'locales' => [

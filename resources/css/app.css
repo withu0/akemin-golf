@@ -123,6 +123,181 @@
         transform: rotate(-2deg);
     }
 
+    /* — text brand lockup (no icon) — */
+    .brand-wordmark {
+        display: inline-flex;
+        flex-direction: column;
+        gap: 0.42rem;
+        line-height: 1;
+        position: relative;
+    }
+
+    /* Japanese lockup: name + golf suffix, ink-wash gradients */
+    .brand-wordmark-ja {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.06em;
+        position: relative;
+        padding-bottom: 0.42em;
+        letter-spacing: 0.14em;
+        font-family: var(--font-serif);
+        line-height: 1.12;
+    }
+    .brand-wordmark-ja::after {
+        content: "";
+        position: absolute;
+        left: -0.05em;
+        right: -0.1em;
+        bottom: 0;
+        height: 1.5px;
+        border-radius: 1px;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(168, 217, 214, 0.35) 8%,
+            var(--color-gold) 42%,
+            var(--color-gold-soft) 72%,
+            transparent 100%
+        );
+        opacity: 0.75;
+    }
+    .brand-wordmark-ja-name {
+        font-weight: 500;
+        letter-spacing: 0.24em;
+        background: linear-gradient(
+            168deg,
+            #2f2a24 0%,
+            var(--color-sumi) 38%,
+            var(--color-matsuba) 88%,
+            #5a5248 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.55));
+    }
+    .brand-wordmark-ja-suffix {
+        font-weight: 800;
+        letter-spacing: 0.32em;
+        margin-left: 0.04em;
+        background: linear-gradient(
+            118deg,
+            var(--color-matsuba) 0%,
+            #6a9e9b 28%,
+            var(--color-gold) 62%,
+            var(--color-gold-soft) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.35));
+    }
+
+    .brand-wordmark-en {
+        font-family: var(--font-label);
+        text-transform: uppercase;
+        letter-spacing: 0.42em;
+        font-size: 0.58rem;
+        font-weight: 500;
+        color: var(--color-gold);
+        padding-left: 0.05rem;
+    }
+    .brand-wordmark--header .brand-wordmark-ja {
+        font-size: clamp(1.32rem, 2.5vw, 1.68rem);
+    }
+    .brand-wordmark--header .brand-wordmark-ja-name {
+        letter-spacing: 0.26em;
+    }
+    .brand-wordmark--header .brand-wordmark-ja-suffix {
+        letter-spacing: 0.36em;
+    }
+    .brand-wordmark--header .brand-wordmark-en {
+        font-size: clamp(0.56rem, 1.2vw, 0.64rem);
+    }
+    .brand-wordmark--menu .brand-wordmark-ja {
+        font-size: clamp(1.18rem, 2vw, 1.38rem);
+    }
+    .brand-wordmark--footer .brand-wordmark-ja {
+        font-size: clamp(1.95rem, 4vw, 2.55rem);
+        padding-bottom: 0.48em;
+    }
+    .brand-wordmark--footer .brand-wordmark-ja::after {
+        height: 2px;
+        opacity: 0.85;
+    }
+    .brand-wordmark--footer .brand-wordmark-ja-name {
+        letter-spacing: 0.2em;
+    }
+    .brand-wordmark--footer .brand-wordmark-ja-suffix {
+        letter-spacing: 0.28em;
+    }
+    .brand-wordmark--footer .brand-wordmark-en {
+        font-size: 0.68rem;
+        letter-spacing: 0.48em;
+    }
+    .brand-wordmark--center {
+        align-items: center;
+        text-align: center;
+        gap: 0.55rem;
+    }
+    .brand-wordmark--center::after {
+        content: "";
+        width: 2.8rem;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--color-gold-soft), transparent);
+    }
+    .brand-wordmark--center .brand-wordmark-ja::after {
+        left: 10%;
+        right: 10%;
+    }
+
+    /* dark-surface tones */
+    .brand-wordmark--light .brand-wordmark-ja-name {
+        background: linear-gradient(168deg, #fff 0%, rgba(252, 252, 250, 0.92) 45%, var(--color-gold-soft) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        filter: drop-shadow(0 1px 8px rgba(168, 217, 214, 0.22));
+    }
+    .brand-wordmark--light .brand-wordmark-ja-suffix {
+        background: linear-gradient(118deg, var(--color-gold-soft) 0%, var(--color-gold) 55%, #e8f7f6 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        filter: none;
+    }
+    .brand-wordmark--light .brand-wordmark-ja::after {
+        background: linear-gradient(90deg, transparent, rgba(197, 235, 233, 0.45), var(--color-gold-soft), rgba(197, 235, 233, 0.45), transparent);
+        opacity: 0.9;
+    }
+    .brand-wordmark--light .brand-wordmark-en { color: var(--color-gold-soft); }
+
+    .brand-wordmark--gold .brand-wordmark-ja-name {
+        background: linear-gradient(168deg, #fff 0%, var(--color-gold-soft) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        filter: none;
+    }
+    .brand-wordmark--gold .brand-wordmark-ja-suffix {
+        background: linear-gradient(118deg, var(--color-gold-soft) 0%, var(--color-gold) 70%, #dff5f3 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        filter: none;
+    }
+    .brand-wordmark--gold .brand-wordmark-ja::after {
+        opacity: 0.95;
+    }
+    .brand-wordmark--gold .brand-wordmark-en { color: var(--color-gold-soft); }
+
+    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+        .brand-wordmark-ja-name { color: var(--color-sumi); background: none; filter: none; }
+        .brand-wordmark-ja-suffix { color: var(--color-gold); background: none; filter: none; }
+        .brand-wordmark--light .brand-wordmark-ja-name,
+        .brand-wordmark--light .brand-wordmark-ja-suffix,
+        .brand-wordmark--gold .brand-wordmark-ja-name,
+        .brand-wordmark--gold .brand-wordmark-ja-suffix { color: var(--color-paper); }
+    }
+
     /* — gold hairlines & brush rules — */
     .rule-gold { height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold-soft) 18%, var(--color-gold-soft) 82%, transparent); border: 0; }
     .rule-ink  { height: 1px; background: var(--color-line); border: 0; }
