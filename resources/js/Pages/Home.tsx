@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useT, useUrl, useBrand } from '../lib/shared';
 import { Reveal, StaggerGroup, StaggerItem, useParallax } from '../lib/anim';
 import { ArrowRight, PlayIcon, SectionHead } from '../Components/ui';
-import { ActivityCardView, PostCardView } from '../Components/cards';
+import { ActivityCardView, FriendCardMedia, PostCardView } from '../Components/cards';
 import type { ActivityCard, FriendCard, PostCard, SectionContent } from '../types';
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
@@ -202,13 +202,7 @@ export default function Home({
                         <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                             {friends.map((f) => (
                                 <StaggerItem key={f.id}>
-                                    <div className="img-frame aspect-[3/4] group">
-                                        {f.photo ? (
-                                            <img src={f.photo} alt={f.name} className="h-full w-full object-cover" />
-                                        ) : (
-                                            <div className="h-full w-full grid place-items-center text-5xl bg-white/5">{f.flag ?? '⛳'}</div>
-                                        )}
-                                    </div>
+                                    <FriendCardMedia friend={f} />
                                     <p className="mt-3 display text-lg">{f.name}</p>
                                     <p className="text-white/55 text-sm tracking-wide">{f.flag} {f.country}</p>
                                 </StaggerItem>

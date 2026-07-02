@@ -41,6 +41,7 @@ class Friend extends Model
             'flag'      => $this->flag,
             'instagram' => $this->instagram,
             'photo'     => media_url($this->photo),
+            'video'     => media_url($this->video),
             'message'   => $this->t('message'),
         ];
     }

@@ -48,6 +48,7 @@ export interface FriendCard {
     flag: string | null;
     instagram: string | null;
     photo: string | null;
+    video: string | null;
     message: string;
 }
 

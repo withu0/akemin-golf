@@ -24,11 +24,18 @@
 
     <div class="grid gap-6 sm:grid-cols-2">
         <div>
-            <x-admin.field name="photo" label="写真" type="file" />
+            <x-admin.field name="photo" label="写真" type="file" accept="image/*" />
             @if ($friend->photo)<img src="{{ media_url($friend->photo) }}" class="mt-3 h-24 w-24 rounded-lg object-cover border border-[var(--color-line)]">@endif
         </div>
-        <x-admin.field name="sort" label="並び順" type="number" :value="$friend->sort ?? 0" />
+        <div>
+            <x-admin.field name="video" label="動画（ホバー再生）" type="file" accept="video/mp4,video/webm,video/quicktime" />
+            @if ($friend->video)
+                <video src="{{ media_url($friend->video) }}" class="mt-3 h-24 w-40 rounded-lg object-cover border border-[var(--color-line)]" muted playsinline preload="metadata"></video>
+            @endif
+        </div>
     </div>
+
+    <x-admin.field name="sort" label="並び順" type="number" :value="$friend->sort ?? 0" />
 
     <label class="flex items-center gap-3 text-sm">
         <input type="checkbox" name="is_published" value="1" class="accent-[var(--color-gold)]" @checked($friend->is_published ?? true)>

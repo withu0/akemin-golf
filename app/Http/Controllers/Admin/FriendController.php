@@ -48,6 +48,9 @@ class FriendController extends Controller
         if ($friend->photo) {
             Storage::disk('public')->delete($friend->photo);
         }
+        if ($friend->video) {
+            Storage::disk('public')->delete($friend->video);
+        }
         $friend->delete();
 
         return back()->with('status', '削除しました。');
@@ -64,6 +67,7 @@ class FriendController extends Controller
             'is_published' => ['nullable', 'boolean'],
             'sort'         => ['nullable', 'integer'],
             'photo'        => ['nullable', 'image', 'max:25600'],
+            'video'        => ['nullable', 'file', 'mimetypes:video/mp4,video/webm,video/quicktime', 'max:102400'],
         ]);
 
         $friend->name      = $data['name'];
@@ -79,6 +83,13 @@ class FriendController extends Controller
                 Storage::disk('public')->delete($friend->photo);
             }
             $friend->photo = $request->file('photo')->store('uploads/friends', 'public');
+        }
+
+        if ($request->hasFile('video')) {
+            if ($friend->video) {
+                Storage::disk('public')->delete($friend->video);
+            }
+            $friend->video = $request->file('video')->store('uploads/friends', 'public');
         }
     }
 }
