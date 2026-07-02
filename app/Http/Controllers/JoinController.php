@@ -53,7 +53,9 @@ class JoinController extends Controller
             Log::error('Failed to send join application emails.', [
                 'application_id' => $application->id,
                 'message'        => $e->getMessage(),
+                'exception'      => $e::class,
             ]);
+            report($e);
         }
     }
 }
