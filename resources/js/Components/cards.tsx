@@ -125,6 +125,19 @@ export function FriendCardMedia({
                             <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3" />
                         </svg>
                     </button>
+                    <div
+                        className={`pointer-events-none absolute inset-0 z-[2] flex items-center justify-center transition-opacity duration-300 ${
+                            playing ? 'opacity-0' : 'opacity-100'
+                        }`}
+                        aria-hidden={playing}
+                    >
+                        <div className="absolute inset-0 bg-black/25" />
+                        <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-paper)]/95 text-[var(--color-sumi)] shadow-lg ring-2 ring-white/40 transition-transform duration-300 group-hover:scale-110">
+                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="ml-1">
+                                <path d="M6 4.5l12 6.5-12 6.5V4.5z" fill="currentColor" />
+                            </svg>
+                        </span>
+                    </div>
                 </>
             )}
 
