@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Friend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class FriendController extends Controller
 {
@@ -67,7 +68,7 @@ class FriendController extends Controller
         $data = $request->validate([
             'name'         => ['required', 'string', 'max:120'],
             'country'      => ['nullable', 'string', 'max:120'],
-            'country_code' => ['nullable', 'string', 'size:2', 'alpha'],
+            'country_code' => ['nullable', 'string', 'size:2', 'alpha', Rule::in(array_keys(config('countries')))],
             'flag'         => ['nullable', 'string', 'max:16'],
             'instagram'    => ['nullable', 'string', 'max:200'],
             'message'      => ['nullable', 'array'],

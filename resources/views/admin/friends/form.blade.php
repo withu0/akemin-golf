@@ -18,8 +18,15 @@
     <div class="grid gap-6 sm:grid-cols-2">
         <div class="space-y-2">
             <label class="field-label" for="country_code">国旗</label>
+            <input
+                type="text"
+                id="country_search"
+                class="admin-input"
+                placeholder="国名で検索（例: Fiji）"
+                autocomplete="off"
+            >
             <div class="flex items-center gap-3">
-                <select id="country_code" name="country_code" class="admin-input flex-1">
+                <select id="country_code" name="country_code" class="admin-input flex-1" size="1">
                     <option value="">— 選択 —</option>
                     @foreach ($countries as $code => $label)
                         <option value="{{ $code }}" @selected(old('country_code', $friend->country_code) === $code)>{{ $label }}</option>
@@ -65,16 +72,59 @@
 </form>
 
 <script>
-    document.getElementById('country_code')?.addEventListener('change', function () {
-        const preview = document.getElementById('country_flag_preview');
-        if (!preview) return;
-        const code = this.value.toLowerCase();
+    const countrySelect = document.getElementById('country_code');
+    const countrySearch = document.getElementById('country_search');
+    const countryPreview = document.getElementById('country_flag_preview');
+
+    function updateFlagPreview(code) {
+        if (!countryPreview) return;
+        code = (code || '').toLowerCase();
         if (code.match(/^[a-z]{2}$/)) {
-            preview.src = 'https://flagcdn.com/w80/' + code + '.png';
-            preview.classList.remove('hidden');
+            countryPreview.src = 'https://flagcdn.com/w80/' + code + '.png';
+            countryPreview.classList.remove('hidden');
         } else {
-            preview.classList.add('hidden');
+            countryPreview.classList.add('hidden');
         }
+    }
+
+    countrySelect?.addEventListener('change', function () {
+        updateFlagPreview(this.value);
+    });
+
+    countrySearch?.addEventListener('input', function () {
+        const query = this.value.trim().toLowerCase();
+        let firstMatch = null;
+        let visibleCount = 0;
+
+        Array.from(countrySelect.options).forEach((option) => {
+            if (option.value === '') {
+                option.hidden = false;
+                return;
+            }
+
+            const matches = !query || option.text.toLowerCase().includes(query);
+            option.hidden = !matches;
+
+            if (matches) {
+                visibleCount++;
+                if (!firstMatch) {
+                    firstMatch = option;
+                }
+            }
+        });
+
+        countrySelect.size = query ? Math.min(10, visibleCount + 1) : 1;
+
+        if (query && firstMatch) {
+            countrySelect.value = firstMatch.value;
+            updateFlagPreview(firstMatch.value);
+        }
+    });
+
+    countrySearch?.addEventListener('blur', function () {
+        setTimeout(() => {
+            countrySelect.size = 1;
+        }, 150);
     });
 </script>
 @endsection
