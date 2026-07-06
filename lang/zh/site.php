@@ -27,6 +27,7 @@ return [
         'learn_more' => '了解更多',
         'watch'      => '观看视频',
         'discover'   => '探索',
+        'view_image' => '查看完整图片',
     ],
 
     'meta' => [

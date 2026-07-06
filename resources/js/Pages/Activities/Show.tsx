@@ -2,6 +2,7 @@ import { Head, Link } from '@inertiajs/react';
 import { useT, useUrl, useBrand } from '../../lib/shared';
 import { Reveal, StaggerGroup, StaggerItem } from '../../lib/anim';
 import { ArrowLeft, Prose, SectionHead } from '../../Components/ui';
+import { CoverImageLightbox } from '../../Components/CoverImageLightbox';
 import { ActivityCardView } from '../../Components/cards';
 import type { ActivityCard } from '../../types';
 
@@ -32,8 +33,8 @@ export default function Show({ activity, more }: { activity: ActivityCard; more:
 
                 {activity.cover && (
                     <div className="wrap mt-10 md:mt-12">
-                        <Reveal className="img-frame aspect-[16/9] paper-edge">
-                            <img src={activity.cover} alt={activity.title} className="h-full w-full object-cover" />
+                        <Reveal>
+                            <CoverImageLightbox src={activity.cover} alt={activity.title} />
                         </Reveal>
                     </div>
                 )}

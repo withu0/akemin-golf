@@ -27,6 +27,7 @@ return [
         'learn_more' => 'くわしく',
         'watch'      => '動画を見る',
         'discover'   => 'のぞいてみる',
+        'view_image' => '画像を見る',
     ],
 
     'meta' => [

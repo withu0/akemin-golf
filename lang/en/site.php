@@ -27,6 +27,7 @@ return [
         'learn_more' => 'Learn more',
         'watch'      => 'Watch',
         'discover'   => 'Discover',
+        'view_image' => 'View full image',
     ],
 
     'meta' => [
