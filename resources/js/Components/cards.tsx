@@ -42,28 +42,63 @@ export function FriendCardMedia({
     friend: Pick<FriendCard, 'name' | 'photo' | 'video' | 'country' | 'flag' | 'flag_url'>;
     className?: string;
 }) {
+    const t = useT();
     const videoRef = useRef<HTMLVideoElement>(null);
-    const photoRef = useRef<HTMLImageElement>(null);
+    const lightboxVideoRef = useRef<HTMLVideoElement>(null);
     const frameRef = useRef<HTMLDivElement>(null);
     const [playing, setPlaying] = useState(false);
-    const [fullscreen, setFullscreen] = useState(false);
+    const [lightbox, setLightbox] = useState<'photo' | 'video' | null>(null);
     const hasVideo = Boolean(friend.video);
     const hasPhoto = Boolean(friend.photo);
 
     const play = useCallback(() => {
         const video = videoRef.current;
-        if (!video || !hasVideo || fullscreen) return;
+        if (!video || !hasVideo || lightbox) return;
         video.play().catch(() => {});
         setPlaying(true);
-    }, [fullscreen, hasVideo]);
+    }, [hasVideo, lightbox]);
 
     const pause = useCallback(() => {
         const video = videoRef.current;
-        if (!video || fullscreen) return;
+        if (!video || lightbox) return;
         video.pause();
         video.currentTime = 0;
         setPlaying(false);
-    }, [fullscreen]);
+    }, [lightbox]);
+
+    const closeLightbox = useCallback(() => {
+        lightboxVideoRef.current?.pause();
+        setLightbox(null);
+        const video = videoRef.current;
+        if (video) {
+            video.pause();
+            video.currentTime = 0;
+            setPlaying(false);
+        }
+    }, []);
+
+    const openLightbox = useCallback(
+        (e: React.MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (hasVideo && playing) {
+                videoRef.current?.pause();
+                setLightbox('video');
+                return;
+            }
+
+            if (hasPhoto) {
+                setLightbox('photo');
+                return;
+            }
+
+            if (hasVideo) {
+                setLightbox('video');
+            }
+        },
+        [hasPhoto, hasVideo, playing],
+    );
 
     useEffect(() => {
         const video = videoRef.current;
@@ -105,57 +140,25 @@ export function FriendCardMedia({
     }, [hasVideo, play, pause]);
 
     useEffect(() => {
-        const onFullscreenChange = () => {
-            const video = videoRef.current;
-            const photo = photoRef.current;
-            const frame = frameRef.current;
-            const fsEl = document.fullscreenElement;
-            const isFullscreen = fsEl === video || fsEl === photo || fsEl === frame;
-            setFullscreen(isFullscreen);
+        if (lightbox !== 'video') return;
+        lightboxVideoRef.current?.play().catch(() => {});
+    }, [lightbox]);
 
-            if (!video) return;
+    useEffect(() => {
+        if (!lightbox) return;
 
-            const videoIsFullscreen = fsEl === video;
-
-            video.controls = videoIsFullscreen;
-            video.muted = !videoIsFullscreen;
-
-            if (videoIsFullscreen) {
-                video.play().catch(() => {});
-                setPlaying(true);
-                return;
-            }
-
-            if (isFullscreen) return;
-
-            video.pause();
-            video.currentTime = 0;
-            setPlaying(false);
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') closeLightbox();
         };
 
-        document.addEventListener('fullscreenchange', onFullscreenChange);
-        return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
-    }, []);
+        document.body.style.overflow = 'hidden';
+        document.addEventListener('keydown', onKeyDown);
 
-    const enterFullscreen = useCallback(
-        (e: React.MouseEvent) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            if (hasVideo && playing) {
-                videoRef.current?.requestFullscreen?.();
-                return;
-            }
-
-            if (hasPhoto) {
-                photoRef.current?.requestFullscreen?.();
-                return;
-            }
-
-            videoRef.current?.requestFullscreen?.();
-        },
-        [hasPhoto, hasVideo, playing],
-    );
+        return () => {
+            document.body.style.overflow = '';
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, [lightbox, closeLightbox]);
 
     return (
         <div
@@ -166,10 +169,9 @@ export function FriendCardMedia({
         >
             {friend.photo ? (
                 <img
-                    ref={photoRef}
                     src={friend.photo}
                     alt={friend.name}
-                    className={`friend-card-photo relative z-[1] h-full w-full object-cover transition-opacity duration-300 ${
+                    className={`friend-card-photo absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
                         hasVideo && playing ? 'opacity-0' : ''
                     }`}
                 />
@@ -210,16 +212,57 @@ export function FriendCardMedia({
             {(hasPhoto || hasVideo) && (
                 <button
                     type="button"
-                    onClick={enterFullscreen}
+                    onClick={openLightbox}
                     className={`absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white transition-opacity hover:bg-black/70 ${
                         hasVideo && playing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
                     }`}
-                    aria-label="Fullscreen"
+                    aria-label={t('cta.view_image')}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
                         <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3" />
                     </svg>
                 </button>
+            )}
+
+            {lightbox && (
+                <div
+                    className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 p-4"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={t('cta.view_image')}
+                    onClick={closeLightbox}
+                >
+                    <button
+                        type="button"
+                        onClick={closeLightbox}
+                        className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+                        aria-label={t('meta.close')}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
+                            <path d="M18 6 6 18M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    {lightbox === 'photo' && friend.photo && (
+                        <img
+                            src={friend.photo}
+                            alt={friend.name}
+                            className="max-h-[90vh] max-w-[min(90vw,76rem)] object-contain"
+                            onClick={(e) => e.stopPropagation()}
+                        />
+                    )}
+
+                    {lightbox === 'video' && friend.video && (
+                        <video
+                            ref={lightboxVideoRef}
+                            src={friend.video}
+                            controls
+                            playsInline
+                            className="max-h-[90vh] max-w-[min(90vw,76rem)] object-contain"
+                            onClick={(e) => e.stopPropagation()}
+                        />
+                    )}
+                </div>
             )}
 
             <FriendFlagBadge country={friend.country} flag_url={friend.flag_url} flag={friend.flag} />
