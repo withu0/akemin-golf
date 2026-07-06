@@ -29,16 +29,6 @@
                 preload="{{ $friend->photo ? 'metadata' : 'auto' }}"
                 @if ($friend->photo) poster="{{ media_url($friend->photo) }}" @endif
             ></video>
-            <button
-                type="button"
-                class="friend-card-fullscreen absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-black/70"
-                aria-label="Fullscreen"
-                onclick="event.stopPropagation(); const v=this.previousElementSibling; v.controls=true; v.muted=false; v.requestFullscreen?.(); v.play();"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4">
-                    <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3" />
-                </svg>
-            </button>
             <div class="friend-card-play pointer-events-none absolute inset-0 z-[2] flex items-center justify-center transition-opacity duration-300">
                 <div class="absolute inset-0 bg-black/25"></div>
                 <span class="relative flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-paper)]/95 text-[var(--color-sumi)] shadow-lg ring-2 ring-white/40 transition-transform duration-300 group-hover:scale-110">
@@ -47,6 +37,19 @@
                     </svg>
                 </span>
             </div>
+        @endif
+
+        @if ($friend->photo || $friend->video)
+            <button
+                type="button"
+                class="friend-card-fullscreen absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-black/70"
+                aria-label="Fullscreen"
+                onclick="event.stopPropagation(); const frame=this.closest('.img-frame'); const playing=frame?.dataset.playing==='1'; const v=frame?.querySelector('video'); const p=frame?.querySelector('.friend-card-photo'); if(playing&&v){v.controls=true;v.muted=false;v.requestFullscreen?.();v.play();}else if(p){p.requestFullscreen?.();}else if(v){v.controls=true;v.muted=false;v.requestFullscreen?.();v.play();}"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3" />
+                </svg>
+            </button>
         @endif
 
         @if (flag_url($friend->country_code))

@@ -43,10 +43,12 @@ export function FriendCardMedia({
     className?: string;
 }) {
     const videoRef = useRef<HTMLVideoElement>(null);
+    const photoRef = useRef<HTMLImageElement>(null);
     const frameRef = useRef<HTMLDivElement>(null);
     const [playing, setPlaying] = useState(false);
     const [fullscreen, setFullscreen] = useState(false);
     const hasVideo = Boolean(friend.video);
+    const hasPhoto = Boolean(friend.photo);
 
     const play = useCallback(() => {
         const video = videoRef.current;
@@ -105,22 +107,26 @@ export function FriendCardMedia({
     useEffect(() => {
         const onFullscreenChange = () => {
             const video = videoRef.current;
+            const photo = photoRef.current;
             const frame = frameRef.current;
-            const isFullscreen =
-                document.fullscreenElement === video ||
-                document.fullscreenElement === frame;
+            const fsEl = document.fullscreenElement;
+            const isFullscreen = fsEl === video || fsEl === photo || fsEl === frame;
             setFullscreen(isFullscreen);
 
             if (!video) return;
 
-            video.controls = isFullscreen;
-            video.muted = !isFullscreen;
+            const videoIsFullscreen = fsEl === video;
 
-            if (isFullscreen) {
+            video.controls = videoIsFullscreen;
+            video.muted = !videoIsFullscreen;
+
+            if (videoIsFullscreen) {
                 video.play().catch(() => {});
                 setPlaying(true);
                 return;
             }
+
+            if (isFullscreen) return;
 
             video.pause();
             video.currentTime = 0;
@@ -131,12 +137,25 @@ export function FriendCardMedia({
         return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
     }, []);
 
-    const enterFullscreen = useCallback((e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const target = videoRef.current ?? frameRef.current;
-        target?.requestFullscreen?.();
-    }, []);
+    const enterFullscreen = useCallback(
+        (e: React.MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (hasVideo && playing) {
+                videoRef.current?.requestFullscreen?.();
+                return;
+            }
+
+            if (hasPhoto) {
+                photoRef.current?.requestFullscreen?.();
+                return;
+            }
+
+            videoRef.current?.requestFullscreen?.();
+        },
+        [hasPhoto, hasVideo, playing],
+    );
 
     return (
         <div
@@ -147,9 +166,12 @@ export function FriendCardMedia({
         >
             {friend.photo ? (
                 <img
+                    ref={photoRef}
                     src={friend.photo}
                     alt={friend.name}
-                    className={`relative z-[1] h-full w-full object-cover transition-opacity duration-300 ${hasVideo && playing ? 'opacity-0' : ''}`}
+                    className={`friend-card-photo relative z-[1] h-full w-full transition-opacity duration-300 ${
+                        fullscreen && !playing ? 'object-contain bg-black' : 'object-cover'
+                    } ${hasVideo && playing ? 'opacity-0' : ''}`}
                 />
             ) : !hasVideo ? (
                 <div className="h-full w-full grid place-items-center text-5xl">{friend.flag ?? '⛳'}</div>
@@ -160,27 +182,15 @@ export function FriendCardMedia({
                     <video
                         ref={videoRef}
                         src={friend.video!}
-                        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
-                            !friend.photo || playing ? 'opacity-100' : 'opacity-0'
-                        }`}
+                        className={`absolute inset-0 h-full w-full transition-opacity duration-300 ${
+                            fullscreen ? 'object-contain bg-black' : 'object-cover'
+                        } ${!friend.photo || playing ? 'opacity-100' : 'opacity-0'}`}
                         muted
                         loop
                         playsInline
                         preload={friend.photo ? 'metadata' : 'auto'}
                         poster={friend.photo ?? undefined}
                     />
-                    <button
-                        type="button"
-                        onClick={enterFullscreen}
-                        className={`absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white transition-opacity hover:bg-black/70 ${
-                            playing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                        }`}
-                        aria-label="Fullscreen"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
-                            <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3" />
-                        </svg>
-                    </button>
                     <div
                         className={`pointer-events-none absolute inset-0 z-[2] flex items-center justify-center transition-opacity duration-300 ${
                             playing ? 'opacity-0' : 'opacity-100'
@@ -195,6 +205,21 @@ export function FriendCardMedia({
                         </span>
                     </div>
                 </>
+            )}
+
+            {(hasPhoto || hasVideo) && (
+                <button
+                    type="button"
+                    onClick={enterFullscreen}
+                    className={`absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white transition-opacity hover:bg-black/70 ${
+                        hasVideo && playing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                    }`}
+                    aria-label="Fullscreen"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3" />
+                    </svg>
+                </button>
             )}
 
             <FriendFlagBadge country={friend.country} flag_url={friend.flag_url} flag={friend.flag} />

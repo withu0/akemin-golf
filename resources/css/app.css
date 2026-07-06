@@ -445,6 +445,14 @@
     .chip-on  { background: rgba(110, 99, 88, 0.12); color: var(--color-matsuba); }
     .chip-off { background: rgba(74, 66, 57, 0.08); color: var(--color-mist); }
     .chip-new { background: var(--color-shu); color: #fff; }
+
+    .friend-card-video:fullscreen,
+    .friend-card-video:-webkit-full-screen,
+    .friend-card-photo:fullscreen,
+    .friend-card-photo:-webkit-full-screen {
+        object-fit: contain;
+        background: #000;
+    }
 }
 
 /* ===================== decorative utilities ===================== */
