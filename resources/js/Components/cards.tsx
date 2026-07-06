@@ -169,9 +169,9 @@ export function FriendCardMedia({
                     ref={photoRef}
                     src={friend.photo}
                     alt={friend.name}
-                    className={`friend-card-photo relative z-[1] h-full w-full transition-opacity duration-300 ${
-                        fullscreen && !playing ? 'object-contain bg-black' : 'object-cover'
-                    } ${hasVideo && playing ? 'opacity-0' : ''}`}
+                    className={`friend-card-photo relative z-[1] h-full w-full object-cover transition-opacity duration-300 ${
+                        hasVideo && playing ? 'opacity-0' : ''
+                    }`}
                 />
             ) : !hasVideo ? (
                 <div className="h-full w-full grid place-items-center text-5xl">{friend.flag ?? '⛳'}</div>
@@ -182,9 +182,9 @@ export function FriendCardMedia({
                     <video
                         ref={videoRef}
                         src={friend.video!}
-                        className={`absolute inset-0 h-full w-full transition-opacity duration-300 ${
-                            fullscreen ? 'object-contain bg-black' : 'object-cover'
-                        } ${!friend.photo || playing ? 'opacity-100' : 'opacity-0'}`}
+                        className={`friend-card-video absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+                            !friend.photo || playing ? 'opacity-100' : 'opacity-0'
+                        }`}
                         muted
                         loop
                         playsInline
