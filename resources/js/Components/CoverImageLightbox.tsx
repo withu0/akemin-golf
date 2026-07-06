@@ -1,8 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useState, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useT } from '../lib/shared';
 
-function ExpandIcon() {
+const lightboxMediaClass = 'max-h-[90vh] max-w-[min(90vw,76rem)] object-contain';
+
+export function ExpandIcon() {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
             <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3" />
@@ -18,6 +21,98 @@ function CloseIcon() {
     );
 }
 
+export function MediaLightbox({
+    open,
+    onClose,
+    children,
+}: {
+    open: boolean;
+    onClose: () => void;
+    children: ReactNode;
+}) {
+    const t = useT();
+
+    useEffect(() => {
+        if (!open) return;
+
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') onClose();
+        };
+
+        document.body.style.overflow = 'hidden';
+        document.addEventListener('keydown', onKeyDown);
+
+        return () => {
+            document.body.style.overflow = '';
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, [open, onClose]);
+
+    if (typeof document === 'undefined') return null;
+
+    return createPortal(
+        <AnimatePresence>
+            {open && (
+                <motion.div
+                    className="fixed inset-0 z-[70] flex items-center justify-center bg-black/85 p-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={t('cta.view_image')}
+                    onClick={onClose}
+                >
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+                        aria-label={t('meta.close')}
+                    >
+                        <CloseIcon />
+                    </button>
+
+                    {children}
+                </motion.div>
+            )}
+        </AnimatePresence>,
+        document.body,
+    );
+}
+
+export function LightboxImage({ src, alt }: { src: string; alt: string }) {
+    return (
+        <motion.img
+            src={src}
+            alt={alt}
+            className={lightboxMediaClass}
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.3 }}
+            onClick={(e) => e.stopPropagation()}
+        />
+    );
+}
+
+export const LightboxVideo = forwardRef<HTMLVideoElement, { src: string }>(function LightboxVideo({ src }, ref) {
+    return (
+        <motion.video
+            ref={ref}
+            src={src}
+            controls
+            playsInline
+            className={lightboxMediaClass}
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.3 }}
+            onClick={(e) => e.stopPropagation()}
+        />
+    );
+});
+
 export function CoverImageLightbox({
     src,
     alt,
@@ -29,24 +124,7 @@ export function CoverImageLightbox({
 }) {
     const t = useT();
     const [open, setOpen] = useState(false);
-
     const close = useCallback(() => setOpen(false), []);
-
-    useEffect(() => {
-        if (!open) return;
-
-        const onKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') close();
-        };
-
-        document.body.style.overflow = 'hidden';
-        document.addEventListener('keydown', onKeyDown);
-
-        return () => {
-            document.body.style.overflow = '';
-            document.removeEventListener('keydown', onKeyDown);
-        };
-    }, [open, close]);
 
     return (
         <>
@@ -62,41 +140,9 @@ export function CoverImageLightbox({
                 </button>
             </div>
 
-            <AnimatePresence>
-                {open && (
-                    <motion.div
-                        className="fixed inset-0 z-[70] flex items-center justify-center bg-black/85 p-4"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        role="dialog"
-                        aria-modal="true"
-                        aria-label={t('cta.view_image')}
-                        onClick={close}
-                    >
-                        <button
-                            type="button"
-                            onClick={close}
-                            className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-                            aria-label={t('meta.close')}
-                        >
-                            <CloseIcon />
-                        </button>
-
-                        <motion.img
-                            src={src}
-                            alt={alt}
-                            className="max-h-[90vh] max-w-[min(90vw,76rem)] object-contain"
-                            initial={{ opacity: 0, scale: 0.97 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.97 }}
-                            transition={{ duration: 0.3 }}
-                            onClick={(e) => e.stopPropagation()}
-                        />
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            <MediaLightbox open={open} onClose={close}>
+                <LightboxImage src={src} alt={alt} />
+            </MediaLightbox>
         </>
     );
 }

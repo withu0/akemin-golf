@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from '@inertiajs/react';
 import type { ActivityCard, FriendCard, PostCard } from '../types';
 import { useShared, useT } from '../lib/shared';
+import { ExpandIcon, LightboxImage, LightboxVideo, MediaLightbox } from './CoverImageLightbox';
 
 type FriendFlagProps = Pick<FriendCard, 'country' | 'flag' | 'flag_url'>;
 
@@ -144,22 +145,6 @@ export function FriendCardMedia({
         lightboxVideoRef.current?.play().catch(() => {});
     }, [lightbox]);
 
-    useEffect(() => {
-        if (!lightbox) return;
-
-        const onKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') closeLightbox();
-        };
-
-        document.body.style.overflow = 'hidden';
-        document.addEventListener('keydown', onKeyDown);
-
-        return () => {
-            document.body.style.overflow = '';
-            document.removeEventListener('keydown', onKeyDown);
-        };
-    }, [lightbox, closeLightbox]);
-
     return (
         <div
             ref={frameRef}
@@ -218,52 +203,18 @@ export function FriendCardMedia({
                     }`}
                     aria-label={t('cta.view_image')}
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
-                        <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3" />
-                    </svg>
+                    <ExpandIcon />
                 </button>
             )}
 
-            {lightbox && (
-                <div
-                    className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 p-4"
-                    role="dialog"
-                    aria-modal="true"
-                    aria-label={t('cta.view_image')}
-                    onClick={closeLightbox}
-                >
-                    <button
-                        type="button"
-                        onClick={closeLightbox}
-                        className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-                        aria-label={t('meta.close')}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
-                            <path d="M18 6 6 18M6 6l12 12" />
-                        </svg>
-                    </button>
-
-                    {lightbox === 'photo' && friend.photo && (
-                        <img
-                            src={friend.photo}
-                            alt={friend.name}
-                            className="max-h-[90vh] max-w-[min(90vw,76rem)] object-contain"
-                            onClick={(e) => e.stopPropagation()}
-                        />
-                    )}
-
-                    {lightbox === 'video' && friend.video && (
-                        <video
-                            ref={lightboxVideoRef}
-                            src={friend.video}
-                            controls
-                            playsInline
-                            className="max-h-[90vh] max-w-[min(90vw,76rem)] object-contain"
-                            onClick={(e) => e.stopPropagation()}
-                        />
-                    )}
-                </div>
-            )}
+            <MediaLightbox open={lightbox !== null} onClose={closeLightbox}>
+                {lightbox === 'photo' && friend.photo && (
+                    <LightboxImage src={friend.photo} alt={friend.name} />
+                )}
+                {lightbox === 'video' && friend.video && (
+                    <LightboxVideo ref={lightboxVideoRef} src={friend.video} />
+                )}
+            </MediaLightbox>
 
             <FriendFlagBadge country={friend.country} flag_url={friend.flag_url} flag={friend.flag} />
         </div>
