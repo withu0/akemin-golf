@@ -76,6 +76,8 @@ class FriendController extends Controller
             'sort'         => ['nullable', 'integer'],
             'photo'        => ['nullable', 'image', 'max:25600'],
             'video'        => ['nullable', 'file', 'mimetypes:video/mp4,video/webm,video/quicktime', 'max:102400'],
+            'remove_photo' => ['nullable', 'boolean'],
+            'remove_video' => ['nullable', 'boolean'],
         ]);
 
         $friend->name         = $data['name'];
@@ -85,6 +87,20 @@ class FriendController extends Controller
         $friend->message   = $data['message'] ?? null;
         $friend->is_published = $request->boolean('is_published');
         $friend->sort      = (int) ($data['sort'] ?? 0);
+
+        if ($request->boolean('remove_photo') && ! $request->hasFile('photo')) {
+            if ($friend->photo) {
+                Storage::disk('public')->delete($friend->photo);
+            }
+            $friend->photo = null;
+        }
+
+        if ($request->boolean('remove_video') && ! $request->hasFile('video')) {
+            if ($friend->video) {
+                Storage::disk('public')->delete($friend->video);
+            }
+            $friend->video = null;
+        }
 
         if ($request->hasFile('photo')) {
             if ($friend->photo) {

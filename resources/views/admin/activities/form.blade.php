@@ -20,18 +20,8 @@
     </div>
 
     <div class="grid gap-6 sm:grid-cols-2">
-        <div>
-            <x-admin.field name="cover_image" label="カバー写真" type="file" accept="image/*" />
-            @if ($activity->cover_image)
-                <img src="{{ media_url($activity->cover_image) }}" class="mt-3 h-24 rounded-lg object-cover border border-[var(--color-line)]">
-            @endif
-        </div>
-        <div>
-            <x-admin.field name="video" label="動画（ホバー再生）" type="file" accept="video/mp4,video/webm,video/quicktime" />
-            @if ($activity->video)
-                <video src="{{ media_url($activity->video) }}" class="mt-3 h-24 w-40 rounded-lg object-cover border border-[var(--color-line)]" muted playsinline preload="metadata"></video>
-            @endif
-        </div>
+        <x-admin.media-field name="cover_image" label="カバー写真" accept="image/*" kind="image" :path="$activity->cover_image" />
+        <x-admin.media-field name="video" label="動画（ホバー再生）" accept="video/mp4,video/webm,video/quicktime" kind="video" :path="$activity->video" />
     </div>
 
     <x-admin.field name="sort" label="並び順（小さいほど先）" type="number" :value="$activity->sort ?? 0" />

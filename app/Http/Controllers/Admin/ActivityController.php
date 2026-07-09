@@ -70,6 +70,8 @@ class ActivityController extends Controller
             'sort'         => ['nullable', 'integer'],
             'cover_image'  => ['nullable', 'image', 'max:25600'],
             'video'        => ['nullable', 'file', 'mimetypes:video/mp4,video/webm,video/quicktime', 'max:102400'],
+            'remove_cover_image' => ['nullable', 'boolean'],
+            'remove_video'       => ['nullable', 'boolean'],
         ]);
 
         $activity->title       = $data['title'];
@@ -78,6 +80,20 @@ class ActivityController extends Controller
         $activity->happened_on = $data['happened_on'] ?? null;
         $activity->is_published = $request->boolean('is_published');
         $activity->sort        = (int) ($data['sort'] ?? 0);
+
+        if ($request->boolean('remove_cover_image') && ! $request->hasFile('cover_image')) {
+            if ($activity->cover_image) {
+                Storage::disk('public')->delete($activity->cover_image);
+            }
+            $activity->cover_image = null;
+        }
+
+        if ($request->boolean('remove_video') && ! $request->hasFile('video')) {
+            if ($activity->video) {
+                Storage::disk('public')->delete($activity->video);
+            }
+            $activity->video = null;
+        }
 
         if ($request->hasFile('cover_image')) {
             if ($activity->cover_image) {

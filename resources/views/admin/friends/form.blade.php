@@ -46,16 +46,8 @@
     <x-admin.translatable name="message" label="ひとこと" type="textarea" :rows="3" :values="$friend->message" />
 
     <div class="grid gap-6 sm:grid-cols-2">
-        <div>
-            <x-admin.field name="photo" label="写真" type="file" accept="image/*" />
-            @if ($friend->photo)<img src="{{ media_url($friend->photo) }}" class="mt-3 h-24 w-24 rounded-lg object-cover border border-[var(--color-line)]">@endif
-        </div>
-        <div>
-            <x-admin.field name="video" label="動画（ホバー再生）" type="file" accept="video/mp4,video/webm,video/quicktime" />
-            @if ($friend->video)
-                <video src="{{ media_url($friend->video) }}" class="mt-3 h-24 w-40 rounded-lg object-cover border border-[var(--color-line)]" muted playsinline preload="metadata"></video>
-            @endif
-        </div>
+        <x-admin.media-field name="photo" label="写真" accept="image/*" kind="image" :path="$friend->photo" :square="true" />
+        <x-admin.media-field name="video" label="動画（ホバー再生）" accept="video/mp4,video/webm,video/quicktime" kind="video" :path="$friend->video" />
     </div>
 
     <x-admin.field name="sort" label="並び順" type="number" :value="$friend->sort ?? 0" />
