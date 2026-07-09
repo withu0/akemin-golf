@@ -38,6 +38,7 @@ export interface ActivityCard {
     location: string | null;
     date: string | null;
     cover: string | null;
+    video: string | null;
     url: string;
 }
 

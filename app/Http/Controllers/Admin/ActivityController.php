@@ -48,6 +48,9 @@ class ActivityController extends Controller
         if ($activity->cover_image) {
             Storage::disk('public')->delete($activity->cover_image);
         }
+        if ($activity->video) {
+            Storage::disk('public')->delete($activity->video);
+        }
         $activity->delete();
 
         return back()->with('status', '活動を削除しました。');
@@ -66,6 +69,7 @@ class ActivityController extends Controller
             'is_published' => ['nullable', 'boolean'],
             'sort'         => ['nullable', 'integer'],
             'cover_image'  => ['nullable', 'image', 'max:25600'],
+            'video'        => ['nullable', 'file', 'mimetypes:video/mp4,video/webm,video/quicktime', 'max:102400'],
         ]);
 
         $activity->title       = $data['title'];
@@ -80,6 +84,13 @@ class ActivityController extends Controller
                 Storage::disk('public')->delete($activity->cover_image);
             }
             $activity->cover_image = $request->file('cover_image')->store('uploads/activities', 'public');
+        }
+
+        if ($request->hasFile('video')) {
+            if ($activity->video) {
+                Storage::disk('public')->delete($activity->video);
+            }
+            $activity->video = $request->file('video')->store('uploads/activities', 'public');
         }
     }
 }

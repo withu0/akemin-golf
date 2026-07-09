@@ -43,6 +43,7 @@ class Activity extends Model
             'location' => $this->location,
             'date'     => $this->happened_on?->isoFormat('YYYY.MM.DD'),
             'cover'    => media_url($this->cover_image),
+            'video'    => media_url($this->video),
             'url'      => route('activities.show', $this),
         ];
     }

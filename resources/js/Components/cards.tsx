@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link } from '@inertiajs/react';
 import type { ActivityCard, FriendCard, PostCard } from '../types';
 import { useShared, useT } from '../lib/shared';
@@ -36,12 +36,24 @@ export function FriendFlagBadge({
     return null;
 }
 
-export function FriendCardMedia({
-    friend,
+export function CardMedia({
+    photo,
+    video,
+    alt,
+    aspectClass = 'aspect-[3/4]',
     className = '',
+    fallback,
+    overlay,
+    frameClassName = 'img-frame',
 }: {
-    friend: Pick<FriendCard, 'name' | 'photo' | 'video' | 'country' | 'flag' | 'flag_url'>;
+    photo: string | null;
+    video: string | null;
+    alt: string;
+    aspectClass?: string;
     className?: string;
+    fallback?: ReactNode;
+    overlay?: ReactNode;
+    frameClassName?: string;
 }) {
     const t = useT();
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -49,31 +61,31 @@ export function FriendCardMedia({
     const frameRef = useRef<HTMLDivElement>(null);
     const [playing, setPlaying] = useState(false);
     const [lightbox, setLightbox] = useState<'photo' | 'video' | null>(null);
-    const hasVideo = Boolean(friend.video);
-    const hasPhoto = Boolean(friend.photo);
+    const hasVideo = Boolean(video);
+    const hasPhoto = Boolean(photo);
 
     const play = useCallback(() => {
-        const video = videoRef.current;
-        if (!video || !hasVideo || lightbox) return;
-        video.play().catch(() => {});
+        const el = videoRef.current;
+        if (!el || !hasVideo || lightbox) return;
+        el.play().catch(() => {});
         setPlaying(true);
     }, [hasVideo, lightbox]);
 
     const pause = useCallback(() => {
-        const video = videoRef.current;
-        if (!video || lightbox) return;
-        video.pause();
-        video.currentTime = 0;
+        const el = videoRef.current;
+        if (!el || lightbox) return;
+        el.pause();
+        el.currentTime = 0;
         setPlaying(false);
     }, [lightbox]);
 
     const closeLightbox = useCallback(() => {
         lightboxVideoRef.current?.pause();
         setLightbox(null);
-        const video = videoRef.current;
-        if (video) {
-            video.pause();
-            video.currentTime = 0;
+        const el = videoRef.current;
+        if (el) {
+            el.pause();
+            el.currentTime = 0;
             setPlaying(false);
         }
     }, []);
@@ -102,21 +114,21 @@ export function FriendCardMedia({
     );
 
     useEffect(() => {
-        const video = videoRef.current;
-        if (!video || !hasVideo) return;
+        const el = videoRef.current;
+        if (!el || !hasVideo) return;
 
         const showFirstFrame = () => {
-            video.currentTime = 0;
-            video.pause();
+            el.currentTime = 0;
+            el.pause();
         };
 
-        video.addEventListener('loadeddata', showFirstFrame);
-        if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+        el.addEventListener('loadeddata', showFirstFrame);
+        if (el.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
             showFirstFrame();
         }
 
-        return () => video.removeEventListener('loadeddata', showFirstFrame);
-    }, [friend.video, hasVideo]);
+        return () => el.removeEventListener('loadeddata', showFirstFrame);
+    }, [video, hasVideo]);
 
     useEffect(() => {
         const frame = frameRef.current;
@@ -148,35 +160,35 @@ export function FriendCardMedia({
     return (
         <div
             ref={frameRef}
-            className={`img-frame aspect-[3/4] group ${className}`}
+            className={`${frameClassName} ${aspectClass} group ${className}`}
             onMouseEnter={play}
             onMouseLeave={pause}
         >
-            {friend.photo ? (
+            {photo ? (
                 <img
-                    src={friend.photo}
-                    alt={friend.name}
-                    className={`friend-card-photo absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+                    src={photo}
+                    alt={alt}
+                    className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
                         hasVideo && playing ? 'opacity-0' : ''
                     }`}
                 />
             ) : !hasVideo ? (
-                <div className="h-full w-full grid place-items-center text-5xl">{friend.flag ?? '⛳'}</div>
+                fallback ?? null
             ) : null}
 
             {hasVideo && (
                 <>
                     <video
                         ref={videoRef}
-                        src={friend.video!}
-                        className={`friend-card-video absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
-                            !friend.photo || playing ? 'opacity-100' : 'opacity-0'
+                        src={video!}
+                        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+                            !photo || playing ? 'opacity-100' : 'opacity-0'
                         }`}
                         muted
                         loop
                         playsInline
-                        preload={friend.photo ? 'metadata' : 'auto'}
-                        poster={friend.photo ?? undefined}
+                        preload={photo ? 'metadata' : 'auto'}
+                        poster={photo ?? undefined}
                     />
                     <div
                         className={`pointer-events-none absolute inset-0 z-[2] flex items-center justify-center transition-opacity duration-300 ${
@@ -208,32 +220,69 @@ export function FriendCardMedia({
             )}
 
             <MediaLightbox open={lightbox !== null} onClose={closeLightbox}>
-                {lightbox === 'photo' && friend.photo && (
-                    <LightboxImage src={friend.photo} alt={friend.name} />
-                )}
-                {lightbox === 'video' && friend.video && (
-                    <LightboxVideo ref={lightboxVideoRef} src={friend.video} />
-                )}
+                {lightbox === 'photo' && photo && <LightboxImage src={photo} alt={alt} />}
+                {lightbox === 'video' && video && <LightboxVideo ref={lightboxVideoRef} src={video} />}
             </MediaLightbox>
 
-            <FriendFlagBadge country={friend.country} flag_url={friend.flag_url} flag={friend.flag} />
+            {overlay}
         </div>
     );
 }
 
-export function ActivityCardView({ activity }: { activity: ActivityCard }) {
+export function FriendCardMedia({
+    friend,
+    className = '',
+}: {
+    friend: Pick<FriendCard, 'name' | 'photo' | 'video' | 'country' | 'flag' | 'flag_url'>;
+    className?: string;
+}) {
+    return (
+        <CardMedia
+            photo={friend.photo}
+            video={friend.video}
+            alt={friend.name}
+            aspectClass="aspect-[3/4]"
+            className={className}
+            fallback={<div className="h-full w-full grid place-items-center text-5xl">{friend.flag ?? '⛳'}</div>}
+            overlay={<FriendFlagBadge country={friend.country} flag_url={friend.flag_url} flag={friend.flag} />}
+        />
+    );
+}
+
+export function ActivityCardMedia({
+    activity,
+    aspectClass = 'aspect-[4/3]',
+    className = '',
+    frameClassName = 'img-frame',
+}: {
+    activity: Pick<ActivityCard, 'title' | 'cover' | 'video'>;
+    aspectClass?: string;
+    className?: string;
+    frameClassName?: string;
+}) {
     const { site } = useShared();
+
+    return (
+        <CardMedia
+            photo={activity.cover}
+            video={activity.video}
+            alt={activity.title}
+            aspectClass={aspectClass}
+            className={className}
+            frameClassName={frameClassName}
+            fallback={
+                <div className="h-full w-full grid place-items-center text-[var(--color-mist)] display text-2xl">
+                    {site.brand_ja}
+                </div>
+            }
+        />
+    );
+}
+
+export function ActivityCardView({ activity }: { activity: ActivityCard }) {
     return (
         <Link href={activity.url} className="card group block h-full">
-            <div className="img-frame aspect-[4/3]">
-                {activity.cover ? (
-                    <img src={activity.cover} alt={activity.title} className="h-full w-full object-cover" />
-                ) : (
-                    <div className="h-full w-full grid place-items-center text-[var(--color-mist)] display text-2xl">
-                        {site.brand_ja}
-                    </div>
-                )}
-            </div>
+            <ActivityCardMedia activity={activity} />
             <div className="p-6">
                 <div className="flex items-center gap-3 text-[var(--color-mist)] text-xs tracking-widest uppercase font-[var(--font-label)] mb-3">
                     {activity.date && <span>{activity.date}</span>}
