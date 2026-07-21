@@ -1,9 +1,17 @@
 @props(['activity'])
 
+@php
+    $cover = $activity->relationLoaded('coverMedia')
+        ? $activity->coverMedia
+        : $activity->coverMedia()->first();
+@endphp
+
 <a href="{{ route('activities.show', $activity) }}" class="card group block reveal">
     <div class="img-frame aspect-[4/3]">
-        @if ($activity->cover_image)
-            <img src="{{ media_url($activity->cover_image) }}" alt="{{ $activity->t('title') }}" class="h-full w-full object-cover">
+        @if ($cover?->isImage())
+            <img src="{{ media_url($cover->path) }}" alt="{{ $activity->t('title') }}" class="h-full w-full object-cover">
+        @elseif ($cover?->isVideo())
+            <video src="{{ media_url($cover->path) }}" class="h-full w-full object-cover" muted playsinline preload="metadata"></video>
         @else
             <div class="h-full w-full grid place-items-center text-[var(--color-mist)] display text-2xl">{{ config('site.brand_ja') }}</div>
         @endif

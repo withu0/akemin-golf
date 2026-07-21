@@ -3,12 +3,16 @@ import { useT, useUrl, useBrand } from '../../lib/shared';
 import { Reveal, StaggerGroup, StaggerItem } from '../../lib/anim';
 import { ArrowLeft, Prose, SectionHead } from '../../Components/ui';
 import { ActivityCardMedia, ActivityCardView } from '../../Components/cards';
+import { ActivityGallery } from '../../Components/ActivityGallery';
 import type { ActivityCard } from '../../types';
 
 export default function Show({ activity, more }: { activity: ActivityCard; more: ActivityCard[] }) {
     const t = useT();
     const brand = useBrand();
     const url = useUrl();
+    const gallery = activity.gallery ?? [];
+    const hasCover = Boolean(activity.cover || activity.video);
+    const showGallery = gallery.length > 1 || (!hasCover && gallery.length > 0);
 
     return (
         <>
@@ -30,7 +34,7 @@ export default function Show({ activity, more }: { activity: ActivityCard; more:
                     </Reveal>
                 </div>
 
-                {(activity.cover || activity.video) && (
+                {hasCover && (
                     <div className="wrap mt-10 md:mt-12">
                         <Reveal>
                             <ActivityCardMedia
@@ -38,6 +42,14 @@ export default function Show({ activity, more }: { activity: ActivityCard; more:
                                 aspectClass="aspect-[16/9]"
                                 frameClassName="img-frame paper-edge"
                             />
+                        </Reveal>
+                    </div>
+                )}
+
+                {showGallery && (
+                    <div className="wrap mt-6 md:mt-8">
+                        <Reveal>
+                            <ActivityGallery items={gallery} title={activity.title} />
                         </Reveal>
                     </div>
                 )}

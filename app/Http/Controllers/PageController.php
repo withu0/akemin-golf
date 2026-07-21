@@ -14,7 +14,7 @@ class PageController extends Controller
         return Inertia::render('Home', [
             'hero'       => site_section('hero')->content(),
             'about'      => site_section('about')->content(),
-            'activities' => Activity::published()->ordered()->limit(3)->get()->map->card(),
+            'activities' => Activity::published()->ordered()->with('coverMedia')->limit(3)->get()->map->card(),
             'friends'    => Friend::published()->ordered()->limit(4)->get()->map->card(),
             'posts'      => Post::published()->ordered()->limit(2)->get()->map->card(),
         ]);

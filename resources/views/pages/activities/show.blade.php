@@ -4,6 +4,15 @@
 
 @section('content')
 
+@php
+    $cover = $activity->relationLoaded('coverMedia')
+        ? $activity->coverMedia
+        : $activity->coverMedia()->first();
+    $gallery = $activity->relationLoaded('media')
+        ? $activity->media
+        : $activity->media()->get();
+@endphp
+
 <article class="pt-32 md:pt-40">
     <div class="wrap-tight">
         <a href="{{ route('activities.index') }}" class="link-arrow mb-8 reveal">
@@ -19,10 +28,30 @@
         <h1 class="display text-3xl md:text-5xl leading-tight text-balance reveal">{{ $activity->t('title') }}</h1>
     </div>
 
-    @if ($activity->cover_image)
+    @if ($cover)
         <div class="wrap mt-10 md:mt-12 reveal">
             <div class="img-frame aspect-[16/9] paper-edge">
-                <img src="{{ media_url($activity->cover_image) }}" alt="{{ $activity->t('title') }}" class="h-full w-full object-cover">
+                @if ($cover->isImage())
+                    <img src="{{ media_url($cover->path) }}" alt="{{ $activity->t('title') }}" class="h-full w-full object-cover">
+                @else
+                    <video src="{{ media_url($cover->path) }}" class="h-full w-full object-cover" controls playsinline preload="metadata"></video>
+                @endif
+            </div>
+        </div>
+    @endif
+
+    @if ($gallery->count() > 1 || (! $cover && $gallery->isNotEmpty()))
+        <div class="wrap mt-6 md:mt-8 reveal">
+            <div class="grid gap-2 sm:gap-2.5 grid-cols-2 sm:grid-cols-4">
+                @foreach ($gallery as $media)
+                    <div class="img-frame aspect-square overflow-hidden">
+                        @if ($media->isImage())
+                            <img src="{{ media_url($media->path) }}" alt="{{ $activity->t('title') }}" class="h-full w-full object-cover">
+                        @else
+                            <video src="{{ media_url($media->path) }}" class="h-full w-full object-cover" controls playsinline preload="metadata"></video>
+                        @endif
+                    </div>
+                @endforeach
             </div>
         </div>
     @endif

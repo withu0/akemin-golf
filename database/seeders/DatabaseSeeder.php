@@ -124,7 +124,7 @@ class DatabaseSeeder extends Seeder
         $activities = [
             [
                 'happened_on' => '2026-05-18', 'location' => 'Los Angeles, California', 'sort' => 1,
-                'cover_image' => 'media/la-round.jpg',
+                'cover' => 'media/la-round.jpg',
                 'title' => ['ja' => 'ロサンゼルスで、世界の仲間とラウンド', 'en' => 'A round with friends from around the world in LA', 'zh' => '在洛杉矶，与世界各地的伙伴同场'],
                 'body' => [
                     'ja' => "ジャカランダの花が咲くロサンゼルスのコースで、世界各地の仲間とラウンドしました。\n国も言葉もちがうのに、ナイスショットには同じ笑顔。これがあけみんゴルフの原点です。",
@@ -134,7 +134,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'happened_on' => '2026-04-09', 'location' => 'Tropical Resort Course', 'sort' => 2,
-                'cover_image' => 'media/tropical.jpg',
+                'cover' => 'media/tropical.jpg',
                 'title' => ['ja' => '南国のグリーンで、しなやかに', 'en' => 'Supple and strong on a tropical green', 'zh' => '在南国果岭，柔韧而有力'],
                 'body' => [
                     'ja' => "ヤシの木が並ぶ南国のコースへ。日差し対策をしっかりして、足腰を使ってしっかり歩く。\n美容も健康も、楽しみながら。汗をかいた分だけ、心も軽くなりました。",
@@ -144,7 +144,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'happened_on' => '2026-03-22', 'location' => 'Narita → The World', 'sort' => 3,
-                'cover_image' => 'media/airport.jpg',
+                'cover' => 'media/airport.jpg',
                 'title' => ['ja' => 'クラブを抱えて、次の国へ', 'en' => 'Clubs in hand, off to the next country', 'zh' => '抱起球杆，飞向下一个国家'],
                 'body' => [
                     'ja' => "成田の出発ロビー。スーツケースの隣には、いつもゴルフバッグ。\nこの一本があれば、どこへ行っても友達ができる。さあ、次のグリーンへ。",
@@ -154,7 +154,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'happened_on' => '2026-02-14', 'location' => 'Akemin Golf Day', 'sort' => 4,
-                'cover_image' => 'media/round2.jpg',
+                'cover' => 'media/round2.jpg',
                 'title' => ['ja' => '今日も一打、一歩、前へ', 'en' => 'One shot, one step forward — again today', 'zh' => '今天也是一杆、一步，向前'],
                 'body' => [
                     'ja' => "毎日が小さな挑戦。昨日より少しだけ遠くへ、まっすぐに。\nゴルフが教えてくれるのは、人生も同じだということ。",
@@ -164,7 +164,15 @@ class DatabaseSeeder extends Seeder
             ],
         ];
         foreach ($activities as $a) {
-            Activity::create($a);
+            $coverPath = $a['cover'];
+            unset($a['cover']);
+            $activity = Activity::create($a);
+            $media = $activity->media()->create([
+                'path' => $coverPath,
+                'type' => 'image',
+                'sort' => 0,
+            ]);
+            $activity->update(['cover_media_id' => $media->id]);
         }
 
         // ---- Friends -------------------------------------------------------

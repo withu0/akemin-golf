@@ -31,6 +31,12 @@ export interface SectionContent {
     image: string | null;
 }
 
+export interface ActivityMediaItem {
+    id: number;
+    url: string;
+    type: 'image' | 'video';
+}
+
 export interface ActivityCard {
     id: number;
     title: string;
@@ -40,6 +46,7 @@ export interface ActivityCard {
     cover: string | null;
     video: string | null;
     url: string;
+    gallery?: ActivityMediaItem[];
 }
 
 export interface FriendCard {

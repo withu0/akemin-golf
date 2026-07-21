@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Concerns\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Activity extends Model
 {
@@ -24,6 +26,31 @@ class Activity extends Model
         ];
     }
 
+    public function media(): HasMany
+    {
+        return $this->hasMany(ActivityMedia::class)->ordered();
+    }
+
+    public function coverMedia(): BelongsTo
+    {
+        return $this->belongsTo(ActivityMedia::class, 'cover_media_id');
+    }
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Activity $activity) {
+            // Break circular FK (cover_media_id → activity_media) before cascade.
+            $activity->cover_media_id = null;
+            $activity->saveQuietly();
+
+            foreach ($activity->media()->get() as $media) {
+                if ($media->path) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($media->path);
+                }
+            }
+        });
+    }
+
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('is_published', true);
@@ -34,17 +61,31 @@ class Activity extends Model
         return $query->orderByDesc('happened_on')->orderBy('sort');
     }
 
-    public function card(): array
+    public function card(bool $withGallery = false): array
     {
-        return [
+        $cover = $this->relationLoaded('coverMedia')
+            ? $this->coverMedia
+            : $this->coverMedia()->first();
+
+        $payload = [
             'id'       => $this->id,
             'title'    => $this->t('title'),
             'body'     => $this->t('body'),
             'location' => $this->location,
             'date'     => $this->happened_on?->isoFormat('YYYY.MM.DD'),
-            'cover'    => media_url($this->cover_image),
-            'video'    => media_url($this->video),
+            'cover'    => ($cover && $cover->isImage()) ? $cover->url() : null,
+            'video'    => ($cover && $cover->isVideo()) ? $cover->url() : null,
             'url'      => route('activities.show', $this),
         ];
+
+        if ($withGallery) {
+            $media = $this->relationLoaded('media')
+                ? $this->media
+                : $this->media()->get();
+
+            $payload['gallery'] = $media->map->toGalleryItem()->values()->all();
+        }
+
+        return $payload;
     }
 }
